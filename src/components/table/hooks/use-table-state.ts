@@ -58,8 +58,7 @@ function useTableState() {
   );
 
   return {
-    state,
-    dispatch,
+    ...state,
     setGridSettings,
     rowClassRules,
     defaultColDef,

@@ -15,14 +15,15 @@ ModuleRegistry.registerModules([AllEnterpriseModule]);
 LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
 
 function Table(props: AgGridReactProps) {
-  const { state, onStateUpdated } = useTableCustomViews();
+  const { ready, customViewState, settings, onStateUpdated } =
+    useTableCustomViews();
   const { defaultColDef, rowClassRules } = useTableState();
 
   return (
     <div>
       <TableToolbar />
 
-      {state.ready ? (
+      {ready ? (
         <AgGridReact
           {...props}
           theme={theme}
@@ -35,9 +36,9 @@ function Table(props: AgGridReactProps) {
           animateRows={false}
           defaultColDef={defaultColDef}
           onStateUpdated={onStateUpdated}
-          initialState={state.customViewState}
+          initialState={customViewState}
           rowClassRules={rowClassRules}
-          enableAdvancedFilter={state.settings.enableAdvancedFilter}
+          enableAdvancedFilter={settings.enableAdvancedFilter}
         />
       ) : (
         <p>Skeleton Loader</p>

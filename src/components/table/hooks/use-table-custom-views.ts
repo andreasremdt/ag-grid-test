@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import TableContext from "../lib/context";
 import type { StateUpdatedEvent } from "ag-grid-community";
 import type { CustomView } from "../lib/types";
@@ -13,20 +13,23 @@ function useTableCustomViews() {
 
   const { state, dispatch } = context;
 
-  function onStateUpdated(event: StateUpdatedEvent) {
-    if (event.sources.includes("gridInitializing")) {
-      dispatch({
-        type: "INIT",
-        payload: { api: event.api, initialCustomViewState: event.state },
-      });
-    } else if (deepEqual(state.initialCustomViewState, event.state)) {
-      dispatch({ type: "RESET_MODIFIED_STATE" });
-      setGridReady();
-    } else {
-      dispatch({ type: "UPDATE_CUSTOM_VIEW_STATE", payload: event.state });
-      setGridReady();
-    }
-  }
+  const onStateUpdated = useCallback(
+    (event: StateUpdatedEvent) => {
+      if (event.sources.includes("gridInitializing")) {
+        dispatch({
+          type: "INIT",
+          payload: { api: event.api, initialCustomViewState: event.state },
+        });
+      } else if (deepEqual(state.initialCustomViewState, event.state)) {
+        dispatch({ type: "RESET_MODIFIED_STATE" });
+        setGridReady();
+      } else {
+        dispatch({ type: "UPDATE_CUSTOM_VIEW_STATE", payload: event.state });
+        setGridReady();
+      }
+    },
+    [state.initialCustomViewState]
+  );
 
   function resetGridState() {
     dispatch({ type: "RESET_MODIFIED_STATE" });
@@ -47,12 +50,48 @@ function useTableCustomViews() {
     setGridReady();
   }
 
+  function createCustomView() {
+    if (!state.customViewState) return;
+
+    const newCustomView: CustomView = {
+      id: Date.now().toString(),
+      title: `My Custom View ${Math.random() * 100}`,
+      state: state.customViewState,
+      type: state.tableProps.customViewsType!,
+    };
+
+    state.tableProps.onCreateCustomView?.(newCustomView);
+    dispatch({
+      type: "SET_ACTIVE_CUSTOM_VIEW",
+      payload: newCustomView,
+    });
+    setGridReady();
+  }
+
+  function saveCustomView() {
+    const gridState = state.api?.getState();
+
+    if (!state.activeCustomView || !gridState) return;
+
+    const savedCustomView: CustomView = {
+      ...state.activeCustomView,
+      state: gridState,
+    };
+
+    state.tableProps.onSaveCustomView?.(savedCustomView);
+    dispatch({
+      type: "PERSIST_CUSTOM_VIEW_STATE",
+      payload: gridState,
+    });
+    setGridReady();
+  }
+
   return {
-    state,
-    dispatch,
-    setGridReady,
+    ...state,
     resetGridState,
     switchCustomView,
+    createCustomView,
+    saveCustomView,
     onStateUpdated,
   };
 }
