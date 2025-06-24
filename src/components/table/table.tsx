@@ -1,29 +1,32 @@
 "use client";
 
 import { AgGridReact, type AgGridReactProps } from "ag-grid-react";
-import theme from "./theme";
-import Toolbar from "./toolbar";
-import { forwardEvent } from "@/lib/utils";
-import type { CustomView } from "./types";
+import theme from "./lib/theme";
+import TableToolbar from "./table-toolbar";
+import type { CustomView } from "./lib/types";
 import useTableState from "./use-table-state";
 import {
   AllEnterpriseModule,
+  type ColDef,
   LicenseManager,
   ModuleRegistry,
+  type RowClassParams,
+  type RowClassRules,
 } from "ag-grid-enterprise";
-import { useReducer } from "react";
-import TableContext, { initialTableContextState } from "./context";
-import reducer from "./reducer";
+import { useMemo, useReducer } from "react";
+import TableContext, { getInitialTableContextState } from "./lib/context";
+import reducer from "./lib/reducer";
+import styles from "./table.module.css";
 
 type Props = AgGridReactProps & {
   customViewsType?: string;
   customViews?: CustomView[];
   customViewsLayout?: "none" | "simple" | "dropdown";
   activeCustomView?: CustomView;
-  heading?: string;
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
+  getRowErrorState?: (data: RowClassParams) => "failed" | "invalid" | undefined;
 };
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
@@ -34,50 +37,89 @@ function Table({
   customViews = [],
   activeCustomView,
   customViewsLayout = "none",
-  heading,
   onCreateCustomView,
   onSaveCustomView,
   onDeleteCustomView,
+  getRowErrorState,
   ...props
 }: Props) {
-  const { onStateUpdated, onInitGrid } = useTableState(activeCustomView);
+  const { state, onStateUpdated } = useTableState();
+
+  const rowClassRules = useMemo((): RowClassRules => {
+    return {
+      [styles["failed"]]: (params: RowClassParams) =>
+        state.settings.highlightErrors &&
+        getRowErrorState?.(params) === "failed",
+      [styles["invalid"]]: (params: RowClassParams) =>
+        state.settings.highlightErrors &&
+        getRowErrorState?.(params) === "invalid",
+      ...props.rowClassRules,
+    };
+  }, [state.settings.highlightErrors, props.rowClassRules]);
+
+  const defaultColDef = useMemo(
+    (): ColDef => ({
+      editable: false,
+      filterParams: {
+        buttons: ["clear"],
+      },
+      headerValueGetter: ({ colDef }): string => {
+        const { headerName, field } = colDef as ColDef;
+
+        if (state.settings.columnHeadersInCode) {
+          return field || headerName || "";
+        }
+
+        return headerName || field || "";
+      },
+      ...props.defaultColDef,
+    }),
+    [state.settings.columnHeadersInCode, props.defaultColDef]
+  );
 
   return (
     <div>
-      <Toolbar
+      <TableToolbar
         customViewsType={customViewsType}
         customViews={customViews}
-        activeCustomView={activeCustomView}
         customViewsLayout={customViewsLayout}
-        heading={heading}
         onCreateCustomView={onCreateCustomView}
         onSaveCustomView={onSaveCustomView}
         onDeleteCustomView={onDeleteCustomView}
       />
 
-      <AgGridReact
-        {...props}
-        theme={theme}
-        rowHeight={36}
-        domLayout="autoHeight"
-        suppressServerSideFullWidthLoadingRow
-        suppressDragLeaveHidesColumns
-        tooltipShowDelay={500}
-        tooltipMouseTrack
-        animateRows={false}
-        onFilterChanged={forwardEvent(props.onFilterChanged, onStateUpdated)}
-        onColumnResized={forwardEvent(props.onColumnResized, onStateUpdated)}
-        onSortChanged={forwardEvent(props.onSortChanged, onStateUpdated)}
-        onColumnVisible={forwardEvent(props.onColumnVisible, onStateUpdated)}
-        onColumnMoved={forwardEvent(props.onColumnMoved, onStateUpdated)}
-        onGridReady={forwardEvent(props.onGridReady, onInitGrid)}
-      />
+      {state.ready ? (
+        <AgGridReact
+          {...props}
+          theme={theme}
+          rowHeight={36}
+          domLayout="autoHeight"
+          suppressServerSideFullWidthLoadingRow
+          suppressDragLeaveHidesColumns
+          tooltipShowDelay={500}
+          tooltipMouseTrack
+          animateRows={false}
+          defaultColDef={defaultColDef}
+          onStateUpdated={onStateUpdated}
+          initialState={state.customViewState}
+          rowClassRules={rowClassRules}
+          enableAdvancedFilter={state.settings.enableAdvancedFilter}
+        />
+      ) : (
+        <p>Skeleton Loader</p>
+      )}
     </div>
   );
 }
 
 function TableWrapper(props: Props) {
-  const [state, dispatch] = useReducer(reducer, initialTableContextState);
+  const [state, dispatch] = useReducer(
+    reducer,
+    getInitialTableContextState({
+      activeCustomView: props.activeCustomView,
+      customViewState: props.activeCustomView?.state,
+    })
+  );
 
   return (
     <TableContext.Provider value={{ state, dispatch }}>

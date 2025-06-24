@@ -1,0 +1,15 @@
+.toggle {
+  anchor-name: --custom-views-menu;
+}
+
+.popover {
+  position: fixed;
+  position-anchor: --custom-views-menu;
+  inset-block-start: anchor(end);
+  inset-inline-start: anchor(start);
+  padding: 0.5rem;
+}
+
+.separator {
+  margin-block: 1rem;
+}

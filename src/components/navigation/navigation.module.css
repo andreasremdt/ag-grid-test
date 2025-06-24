@@ -1,13 +1,19 @@
 .navigation {
   border-inline-end: 1px solid #dadada;
   padding-inline-end: 2rem;
+  padding: 1rem;
 }
 
-.separator {
+.heading {
   margin-block-start: 1rem;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .link {
   color: cornflowerblue;
+}
+
+.list {
+  list-style: none;
 }

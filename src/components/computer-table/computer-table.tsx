@@ -1,4 +1,4 @@
-import type { ColDef } from "ag-grid-community";
+import type { ColDef, RowClassParams } from "ag-grid-community";
 import Table from "../table";
 import { useAppContext } from "@/lib/app-context";
 import { useParams, useRouter } from "next/navigation";
@@ -16,10 +16,15 @@ const rowData: Computer[] = [
 ];
 
 const columnDefs: ColDef<Computer>[] = [
-  { field: "make" },
-  { field: "model" },
-  { field: "price" },
+  { field: "make", headerName: "Make", filter: true },
+  { field: "model", headerName: "Model", filter: true },
+  { field: "price", headerName: "Price", filter: true },
 ];
+
+function getRowErrorState({ data }: RowClassParams<Computer>) {
+  if (data?.make === "Apple") return "failed";
+  if (data?.make === "HP") return "invalid";
+}
 
 const customViewsType = "computers";
 
@@ -42,20 +47,14 @@ export default function ComputerTable() {
 
   return (
     <Table
-      onCreateCustomView={(newCustomView) => {
-        onCreateCustomView(newCustomView);
-        router.push(`/views/${newCustomView.id}`);
-      }}
-      onDeleteCustomView={(deletedCustomView) => {
-        onDeleteCustomView(deletedCustomView);
-        router.push("/");
-      }}
+      onCreateCustomView={onCreateCustomView}
+      onDeleteCustomView={onDeleteCustomView}
       onSaveCustomView={onSaveCustomView}
       activeCustomView={activeCustomView}
       customViewsType={customViewsType}
       customViews={computerCustomViews}
+      getRowErrorState={getRowErrorState}
       customViewsLayout="dropdown"
-      heading="Computers"
       rowData={rowData}
       columnDefs={columnDefs}
     />

@@ -2,6 +2,7 @@ import type { ColDef } from "ag-grid-community";
 import Table from "../table";
 import { useAppContext } from "@/lib/app-context";
 import { useParams, useRouter } from "next/navigation";
+import styles from "./car-table.module.css";
 
 type Car = {
   make: string;
@@ -17,10 +18,10 @@ const rowData: Car[] = [
 ];
 
 const columnDefs: ColDef<Car>[] = [
-  { field: "make" },
-  { field: "model" },
-  { field: "price" },
-  { field: "electric" },
+  { field: "make", headerName: "Make", filter: true },
+  { field: "model", headerName: "Model", filter: true },
+  { field: "price", headerName: "Price", filter: true },
+  { field: "electric", headerName: "Electric", filter: true },
 ];
 
 const customViewsType = "cars";
@@ -43,23 +44,26 @@ export default function CarTable() {
   );
 
   return (
-    <Table
-      onCreateCustomView={(newCustomView) => {
-        onCreateCustomView(newCustomView);
-        router.push(`/views/${newCustomView.id}`);
-      }}
-      onDeleteCustomView={(deletedCustomView) => {
-        onDeleteCustomView(deletedCustomView);
-        router.push("/");
-      }}
-      onSaveCustomView={onSaveCustomView}
-      activeCustomView={activeCustomView}
-      customViews={carCustomViews}
-      customViewsLayout="simple"
-      heading="Cars"
-      customViewsType="cars"
-      rowData={rowData}
-      columnDefs={columnDefs}
-    />
+    <>
+      <h1 className={styles.title}>{activeCustomView?.title || "Cars"}</h1>
+
+      <Table
+        onCreateCustomView={(newCustomView) => {
+          onCreateCustomView(newCustomView);
+          router.push(`/views/${newCustomView.id}`);
+        }}
+        onDeleteCustomView={(deletedCustomView) => {
+          onDeleteCustomView(deletedCustomView);
+          router.push("/");
+        }}
+        onSaveCustomView={onSaveCustomView}
+        activeCustomView={activeCustomView}
+        customViews={carCustomViews}
+        customViewsLayout="simple"
+        customViewsType="cars"
+        rowData={rowData}
+        columnDefs={columnDefs}
+      />
+    </>
   );
 }

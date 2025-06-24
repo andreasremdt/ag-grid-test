@@ -1,25 +1,10 @@
 import { useContext } from "react";
-import TableContext from "./context";
-import type {
-  ColumnMovedEvent,
-  ColumnResizedEvent,
-  ColumnVisibleEvent,
-  FilterChangedEvent,
-  GridReadyEvent,
-  SortChangedEvent,
-} from "ag-grid-community";
-import { compare } from "@/lib/utils";
-import type { CustomView } from "./types";
-import { applyGridState, getGridState, resetGridState } from "./utils";
+import TableContext from "./lib/context";
+import type { StateUpdatedEvent } from "ag-grid-community";
+import type { CustomView, TableSettings } from "./lib/types";
+import deepEqual from "@/lib/deep-equal";
 
-type StateUpdatedEvent =
-  | FilterChangedEvent
-  | ColumnVisibleEvent
-  | SortChangedEvent
-  | ColumnMovedEvent
-  | ColumnResizedEvent;
-
-function useTableState(activeCustomView?: CustomView) {
+function useTableState() {
   const context = useContext(TableContext);
 
   if (!context) {
@@ -28,60 +13,59 @@ function useTableState(activeCustomView?: CustomView) {
 
   const { state, dispatch } = context;
 
-  function onInitGrid({ api }: GridReadyEvent) {
-    const initialCustomViewState = activeCustomView?.state || getGridState(api);
-
-    dispatch({
-      type: "INIT",
-      payload: { api, initialCustomViewState, activeCustomView },
-    });
-
-    if (activeCustomView) {
-      applyGridState(activeCustomView.state, api);
-    }
-  }
-
-  function onStateUpdated({ api, source }: StateUpdatedEvent) {
-    if (source === "flex" || source === "api") {
-      return;
-    }
-
-    const newState = getGridState(api);
-
-    if (compare(state.initialCustomViewState, newState)) {
+  function onStateUpdated(event: StateUpdatedEvent) {
+    if (event.sources.includes("gridInitializing")) {
+      dispatch({
+        type: "INIT",
+        payload: { api: event.api, initialCustomViewState: event.state },
+      });
+    } else if (deepEqual(state.initialCustomViewState, event.state)) {
       dispatch({ type: "RESET_MODIFIED_STATE" });
+      setGridReady();
     } else {
-      dispatch({ type: "UPDATE_CUSTOM_VIEW", payload: newState });
+      dispatch({ type: "UPDATE_CUSTOM_VIEW_STATE", payload: event.state });
+      setGridReady();
     }
   }
 
-  function onResetGridState() {
-    if (state.activeCustomView) {
-      applyGridState(state.activeCustomView.state, state.api);
-    } else {
-      resetGridState(state.api);
-    }
-
+  function resetGridState() {
     dispatch({ type: "RESET_MODIFIED_STATE" });
+    setGridReady();
   }
 
-  function onSwitchCustomView(selectedCustomView?: CustomView) {
+  function setGridReady() {
+    setTimeout(() => dispatch({ type: "SET_GRID_READY" }));
+  }
+
+  /**
+   * Updates one or more grid settings, such as live updates, or advanced filters. The grid will
+   * be re-rendered after the settings are applied.
+   *
+   * @param payload
+   */
+  function setGridSettings(payload: Partial<TableSettings>) {
+    dispatch({ type: "TOGGLE_TABLE_SETTING", payload });
+    setGridReady();
+  }
+
+  function switchCustomView(selectedCustomView?: CustomView) {
     if (selectedCustomView) {
-      applyGridState(selectedCustomView.state, state.api);
       dispatch({ type: "SET_ACTIVE_CUSTOM_VIEW", payload: selectedCustomView });
     } else {
-      resetGridState(state.api);
-      dispatch({ type: "RESET_MODIFIED_STATE" });
+      dispatch({ type: "RESET_ALL" });
     }
+
+    setGridReady();
   }
 
   return {
     state,
     dispatch,
-    onInitGrid,
+    setGridReady,
+    setGridSettings,
+    resetGridState,
+    switchCustomView,
     onStateUpdated,
-    onResetGridState,
-    onSwitchCustomView,
   };
 }
 
