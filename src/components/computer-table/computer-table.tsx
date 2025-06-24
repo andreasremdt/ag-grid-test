@@ -1,7 +1,6 @@
 import type { ColDef, RowClassParams } from "ag-grid-community";
-import Table from "../table";
+import Table, { CustomView } from "../table";
 import { useAppContext } from "@/lib/app-context";
-import { useParams, useRouter } from "next/navigation";
 
 type Computer = {
   make: string;
@@ -27,10 +26,9 @@ function getRowErrorState({ data }: RowClassParams<Computer>) {
 }
 
 const customViewsType = "computers";
+const localStorageKey = `test.custom-views.${customViewsType}.last-active`;
 
 export default function ComputerTable() {
-  const { view } = useParams();
-  const router = useRouter();
   const {
     customViews,
     onCreateCustomView,
@@ -42,14 +40,23 @@ export default function ComputerTable() {
     (customView) => customView.type === customViewsType
   );
   const activeCustomView = computerCustomViews.find(
-    (customView) => customView.id === view
+    (customView) => customView.id === localStorage.getItem(localStorageKey)
   );
+
+  function onSelectCustomView(customView?: CustomView) {
+    if (customView) {
+      localStorage.setItem(localStorageKey, customView.id);
+    } else {
+      localStorage.removeItem(localStorageKey);
+    }
+  }
 
   return (
     <Table
       onCreateCustomView={onCreateCustomView}
       onDeleteCustomView={onDeleteCustomView}
       onSaveCustomView={onSaveCustomView}
+      onSelectCustomView={onSelectCustomView}
       activeCustomView={activeCustomView}
       customViewsType={customViewsType}
       customViews={computerCustomViews}

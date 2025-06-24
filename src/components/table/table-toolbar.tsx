@@ -10,6 +10,7 @@ type Props = {
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
+  onSelectCustomView?: (customView?: CustomView) => void;
 };
 
 function TableToolbar({
@@ -19,6 +20,7 @@ function TableToolbar({
   onCreateCustomView,
   onSaveCustomView,
   onDeleteCustomView,
+  onSelectCustomView,
 }: Props) {
   return (
     <header className={styles.toolbar}>
@@ -29,6 +31,7 @@ function TableToolbar({
         onCreateCustomView={onCreateCustomView}
         onSaveCustomView={onSaveCustomView}
         onDeleteCustomView={onDeleteCustomView}
+        onSelectCustomView={onSelectCustomView}
       />
 
       <TableMenu />

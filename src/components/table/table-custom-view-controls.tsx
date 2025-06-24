@@ -9,6 +9,7 @@ type Props = {
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
+  onSelectCustomView?: (customView?: CustomView) => void;
 };
 
 function TableCustomViewControls({
@@ -18,6 +19,7 @@ function TableCustomViewControls({
   onCreateCustomView,
   onSaveCustomView,
   onDeleteCustomView,
+  onSelectCustomView,
 }: Props) {
   const { state, dispatch, setGridReady, resetGridState, switchCustomView } =
     useTableState();
@@ -93,7 +95,13 @@ function TableCustomViewControls({
           </button>
 
           <div id="custom-views-menu" popover="auto" className={styles.popover}>
-            <button type="button" onClick={() => switchCustomView()}>
+            <button
+              type="button"
+              onClick={() => {
+                switchCustomView();
+                onSelectCustomView?.();
+              }}
+            >
               Default view
             </button>
 
@@ -101,7 +109,10 @@ function TableCustomViewControls({
               <div key={customView.id}>
                 <button
                   type="button"
-                  onClick={() => switchCustomView(customView)}
+                  onClick={() => {
+                    switchCustomView(customView);
+                    onSelectCustomView?.(customView);
+                  }}
                 >
                   {customView.title}
                 </button>

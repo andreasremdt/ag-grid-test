@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomView } from "@/components/table/types";
+import type { CustomView } from "@/components/table";
 import AppContext from "@/lib/app-context";
 import { useState, type ReactNode } from "react";
 

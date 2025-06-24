@@ -26,6 +26,7 @@ type Props = AgGridReactProps & {
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
+  onSelectCustomView?: (customView?: CustomView) => void;
   getRowErrorState?: (data: RowClassParams) => "failed" | "invalid" | undefined;
 };
 
@@ -40,6 +41,7 @@ function Table({
   onCreateCustomView,
   onSaveCustomView,
   onDeleteCustomView,
+  onSelectCustomView,
   getRowErrorState,
   ...props
 }: Props) {
@@ -85,6 +87,7 @@ function Table({
         customViewsLayout={customViewsLayout}
         onCreateCustomView={onCreateCustomView}
         onSaveCustomView={onSaveCustomView}
+        onSelectCustomView={onSelectCustomView}
         onDeleteCustomView={onDeleteCustomView}
       />
 
