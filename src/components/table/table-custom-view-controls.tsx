@@ -1,10 +1,10 @@
 import { CustomView } from "./lib/types";
-import useTableState from "./use-table-state";
 import styles from "./table-custom-view-controls.module.css";
+import useTableCustomViews from "./hooks/use-table-custom-views";
 
 function TableCustomViewControls() {
   const { state, dispatch, setGridReady, resetGridState, switchCustomView } =
-    useTableState();
+    useTableCustomViews();
 
   function isSaveButtonDisabled(customView?: CustomView) {
     if (!customView || !state.modified) return true;
@@ -23,6 +23,11 @@ function TableCustomViewControls() {
     };
 
     state.tableProps.onCreateCustomView?.(newCustomView);
+    dispatch({
+      type: "SET_ACTIVE_CUSTOM_VIEW",
+      payload: newCustomView,
+    });
+    setGridReady();
   }
 
   function onSave() {

@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import TableContext from "./lib/context";
+import TableContext from "../lib/context";
 import type { StateUpdatedEvent } from "ag-grid-community";
-import type { CustomView, TableSettings } from "./lib/types";
+import type { CustomView } from "../lib/types";
 import deepEqual from "@/lib/deep-equal";
 
-function useTableState() {
+function useTableCustomViews() {
   const context = useContext(TableContext);
 
   if (!context) {
@@ -37,17 +37,6 @@ function useTableState() {
     setTimeout(() => dispatch({ type: "SET_GRID_READY" }));
   }
 
-  /**
-   * Updates one or more grid settings, such as live updates, or advanced filters. The grid will
-   * be re-rendered after the settings are applied.
-   *
-   * @param payload
-   */
-  function setGridSettings(payload: Partial<TableSettings>) {
-    dispatch({ type: "TOGGLE_TABLE_SETTING", payload });
-    setGridReady();
-  }
-
   function switchCustomView(selectedCustomView?: CustomView) {
     if (selectedCustomView) {
       dispatch({ type: "SET_ACTIVE_CUSTOM_VIEW", payload: selectedCustomView });
@@ -62,11 +51,10 @@ function useTableState() {
     state,
     dispatch,
     setGridReady,
-    setGridSettings,
     resetGridState,
     switchCustomView,
     onStateUpdated,
   };
 }
 
-export default useTableState;
+export default useTableCustomViews;

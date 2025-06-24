@@ -1,5 +1,5 @@
 import type { GridApi, GridState, RowClassParams } from "ag-grid-community";
-import type { AgGridReactProps } from "ag-grid-react";
+import { AgGridReactProps } from "ag-grid-react";
 
 export type TableSettings = {
   highlightErrors: boolean;
@@ -16,10 +16,10 @@ export type TableContextState = {
   settings: TableSettings;
   ready: boolean;
   api: GridApi | null;
-  tableProps: TableProps;
+  tableProps: TableProps & AgGridReactProps;
 };
 
-export type TableProps = AgGridReactProps & {
+export type TableProps = {
   customViewsType?: string;
   customViews?: CustomView[];
   customViewsLayout?: "none" | "simple" | "dropdown";

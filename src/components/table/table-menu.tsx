@@ -1,6 +1,6 @@
 import { useId } from "react";
 import styles from "./table-menu.module.css";
-import useTableState from "./use-table-state";
+import useTableState from "./hooks/use-table-state";
 
 function TableMenu() {
   const id = useId();

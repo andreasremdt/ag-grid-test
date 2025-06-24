@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { CustomView } from "@/components/table/types";
+import type { CustomView } from "@/components/table";
 
 export type AppContextState = {
   customViews: CustomView[];
