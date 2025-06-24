@@ -1,4 +1,5 @@
-import type { GridApi, GridState } from "ag-grid-community";
+import type { GridApi, GridState, RowClassParams } from "ag-grid-community";
+import type { AgGridReactProps } from "ag-grid-react";
 
 export type TableSettings = {
   highlightErrors: boolean;
@@ -15,6 +16,19 @@ export type TableContextState = {
   settings: TableSettings;
   ready: boolean;
   api: GridApi | null;
+  tableProps: TableProps;
+};
+
+export type TableProps = AgGridReactProps & {
+  customViewsType?: string;
+  customViews?: CustomView[];
+  customViewsLayout?: "none" | "simple" | "dropdown";
+  activeCustomView?: CustomView;
+  onCreateCustomView?: (customView: CustomView) => void;
+  onSaveCustomView?: (customView: CustomView) => void;
+  onDeleteCustomView?: (customView: CustomView) => void;
+  onSelectCustomView?: (customView?: CustomView) => void;
+  getRowErrorState?: (data: RowClassParams) => "failed" | "invalid" | undefined;
 };
 
 export type TableActions =

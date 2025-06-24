@@ -2,25 +2,7 @@ import { CustomView } from "./lib/types";
 import useTableState from "./use-table-state";
 import styles from "./table-custom-view-controls.module.css";
 
-type Props = {
-  customViewsType?: string;
-  customViews: CustomView[];
-  customViewsLayout: "none" | "simple" | "dropdown";
-  onCreateCustomView?: (customView: CustomView) => void;
-  onSaveCustomView?: (customView: CustomView) => void;
-  onDeleteCustomView?: (customView: CustomView) => void;
-  onSelectCustomView?: (customView?: CustomView) => void;
-};
-
-function TableCustomViewControls({
-  customViewsType,
-  customViews,
-  customViewsLayout,
-  onCreateCustomView,
-  onSaveCustomView,
-  onDeleteCustomView,
-  onSelectCustomView,
-}: Props) {
+function TableCustomViewControls() {
   const { state, dispatch, setGridReady, resetGridState, switchCustomView } =
     useTableState();
 
@@ -37,10 +19,10 @@ function TableCustomViewControls({
       id: Date.now().toString(),
       title: `My Custom View ${Math.random() * 100}`,
       state: state.customViewState,
-      type: customViewsType!,
+      type: state.tableProps.customViewsType!,
     };
 
-    onCreateCustomView?.(newCustomView);
+    state.tableProps.onCreateCustomView?.(newCustomView);
   }
 
   function onSave() {
@@ -53,7 +35,7 @@ function TableCustomViewControls({
       state: gridState,
     };
 
-    onSaveCustomView?.(savedCustomView);
+    state.tableProps.onSaveCustomView?.(savedCustomView);
     dispatch({
       type: "PERSIST_CUSTOM_VIEW_STATE",
       payload: gridState,
@@ -61,13 +43,13 @@ function TableCustomViewControls({
     setGridReady();
   }
 
-  if (customViewsLayout === "none") {
+  if (state.tableProps.customViewsLayout === "none") {
     return null;
   }
 
   return (
     <div>
-      {customViewsLayout === "simple" ? (
+      {state.tableProps.customViewsLayout === "simple" ? (
         <>
           {state.modified ? (
             <button type="button" onClick={onCreate}>
@@ -83,7 +65,7 @@ function TableCustomViewControls({
         </>
       ) : null}
 
-      {customViewsLayout === "dropdown" ? (
+      {state.tableProps.customViewsLayout === "dropdown" ? (
         <>
           <button
             type="button"
@@ -99,43 +81,47 @@ function TableCustomViewControls({
               type="button"
               onClick={() => {
                 switchCustomView();
-                onSelectCustomView?.();
+                state.tableProps.onSelectCustomView?.();
               }}
             >
               Default view
             </button>
 
-            {customViews.map((customView) => (
-              <div key={customView.id}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    switchCustomView(customView);
-                    onSelectCustomView?.(customView);
-                  }}
-                >
-                  {customView.title}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onDeleteCustomView?.(customView);
-                    switchCustomView();
-                  }}
-                >
-                  Delete
-                </button>
-                <button
-                  disabled={isSaveButtonDisabled(customView)}
-                  type="button"
-                  onClick={onSave}
-                >
-                  Save
-                </button>
-              </div>
-            ))}
+            {state.tableProps.customViews ? (
+              <>
+                {state.tableProps.customViews.map((customView) => (
+                  <div key={customView.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        switchCustomView(customView);
+                        state.tableProps.onSelectCustomView?.(customView);
+                      }}
+                    >
+                      {customView.title}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        state.tableProps.onDeleteCustomView?.(customView);
+                        switchCustomView();
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      disabled={isSaveButtonDisabled(customView)}
+                      type="button"
+                      onClick={onSave}
+                    >
+                      Save
+                    </button>
+                  </div>
+                ))}
 
-            <hr className={styles.separator} />
+                <hr className={styles.separator} />
+              </>
+            ) : null}
 
             <button type="button" onClick={onCreate} disabled={!state.modified}>
               Add new custom view

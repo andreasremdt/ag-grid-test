@@ -1,9 +1,9 @@
 "use client";
 
-import { AgGridReact, type AgGridReactProps } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import theme from "./lib/theme";
 import TableToolbar from "./table-toolbar";
-import type { CustomView } from "./lib/types";
+import type { TableProps } from "./lib/types";
 import useTableState from "./use-table-state";
 import {
   AllEnterpriseModule,
@@ -18,33 +18,10 @@ import TableContext, { getInitialTableContextState } from "./lib/context";
 import reducer from "./lib/reducer";
 import styles from "./table.module.css";
 
-type Props = AgGridReactProps & {
-  customViewsType?: string;
-  customViews?: CustomView[];
-  customViewsLayout?: "none" | "simple" | "dropdown";
-  activeCustomView?: CustomView;
-  onCreateCustomView?: (customView: CustomView) => void;
-  onSaveCustomView?: (customView: CustomView) => void;
-  onDeleteCustomView?: (customView: CustomView) => void;
-  onSelectCustomView?: (customView?: CustomView) => void;
-  getRowErrorState?: (data: RowClassParams) => "failed" | "invalid" | undefined;
-};
-
 ModuleRegistry.registerModules([AllEnterpriseModule]);
 LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
 
-function Table({
-  customViewsType,
-  customViews = [],
-  activeCustomView,
-  customViewsLayout = "none",
-  onCreateCustomView,
-  onSaveCustomView,
-  onDeleteCustomView,
-  onSelectCustomView,
-  getRowErrorState,
-  ...props
-}: Props) {
+function Table({ getRowErrorState, ...props }: TableProps) {
   const { state, onStateUpdated } = useTableState();
 
   const rowClassRules = useMemo((): RowClassRules => {
@@ -81,15 +58,7 @@ function Table({
 
   return (
     <div>
-      <TableToolbar
-        customViewsType={customViewsType}
-        customViews={customViews}
-        customViewsLayout={customViewsLayout}
-        onCreateCustomView={onCreateCustomView}
-        onSaveCustomView={onSaveCustomView}
-        onSelectCustomView={onSelectCustomView}
-        onDeleteCustomView={onDeleteCustomView}
-      />
+      <TableToolbar />
 
       {state.ready ? (
         <AgGridReact
@@ -115,18 +84,19 @@ function Table({
   );
 }
 
-function TableWrapper(props: Props) {
+function TableWrapper(tableProps: TableProps) {
   const [state, dispatch] = useReducer(
     reducer,
     getInitialTableContextState({
-      activeCustomView: props.activeCustomView,
-      customViewState: props.activeCustomView?.state,
+      activeCustomView: tableProps.activeCustomView,
+      customViewState: tableProps.activeCustomView?.state,
+      tableProps,
     })
   );
 
   return (
     <TableContext.Provider value={{ state, dispatch }}>
-      <Table {...props} />
+      <Table {...tableProps} />
     </TableContext.Provider>
   );
 }

@@ -15,13 +15,14 @@ export function getInitialTableContextState(
     api: null,
     activeCustomView: undefined,
     customViewState: undefined,
+    initialCustomViewState: {},
+    tableProps: {},
     settings: {
       highlightErrors: true,
       columnHeadersInCode: false,
       enableAdvancedFilter: false,
       liveUpdates: true,
     },
-    initialCustomViewState: {},
     ...overrides,
   };
 }
