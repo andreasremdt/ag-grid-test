@@ -1,13 +1,17 @@
 import useInlineEditable from "@/hooks/use-inline-editable";
 import useTableCustomViews from "../hooks/use-table-custom-views";
 import styles from "./table-menu.module.css";
+import type { ReactNode } from "react";
 
-function CustomViewActions() {
+type Props = {
+  children: ReactNode;
+};
+
+function CustomViewActions({ children }: Props) {
   const {
     modified,
     activeCustomView,
     resetGridState,
-    // switchCustomView,
     createCustomView,
     saveCustomView,
   } = useTableCustomViews();
@@ -18,6 +22,8 @@ function CustomViewActions() {
   return (
     <>
       <h3 className={styles.separator}>Custom view actions</h3>
+      {children}
+
       {editing ? (
         <form onSubmit={onSubmit}>
           <input

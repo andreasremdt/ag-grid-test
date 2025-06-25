@@ -1,10 +1,12 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import styles from "./table-menu.module.css";
 import TableSettings from "./table-settings";
 import CustomViewActions from "./custom-view-actions";
+import CustomViewList from "./custom-view-list";
 
 function TableMenu() {
   const id = useId();
+  const [listCustomViews, setListCustomViews] = useState<boolean>(false);
 
   return (
     <div className={styles.container}>
@@ -13,8 +15,27 @@ function TableMenu() {
       </button>
 
       <div id={id} popover="auto" className={styles.popover}>
-        <CustomViewActions />
-        <TableSettings />
+        {listCustomViews ? (
+          <CustomViewList>
+            <button type="button" onClick={() => setListCustomViews(false)}>
+              Back
+            </button>
+          </CustomViewList>
+        ) : (
+          <>
+            <CustomViewActions>
+              <button
+                className={styles.button}
+                type="button"
+                onClick={() => setListCustomViews(true)}
+              >
+                Change custom view
+              </button>
+            </CustomViewActions>
+
+            <TableSettings />
+          </>
+        )}
       </div>
     </div>
   );
