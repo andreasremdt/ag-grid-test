@@ -50,12 +50,12 @@ function useTableCustomViews() {
     setGridReady();
   }
 
-  function createCustomView() {
+  function createCustomView(title: string) {
     if (!state.customViewState) return;
 
     const newCustomView: CustomView = {
       id: Date.now().toString(),
-      title: `My Custom View ${Math.random() * 100}`,
+      title,
       state: state.customViewState,
       type: state.tableProps.customViewsType!,
     };
@@ -86,12 +86,24 @@ function useTableCustomViews() {
     setGridReady();
   }
 
+  function renameCustomView(renamedCustomView: CustomView) {
+    state.tableProps.onSaveCustomView?.(renamedCustomView);
+
+    if (state.activeCustomView?.id === renamedCustomView.id) {
+      dispatch({
+        type: "UPDATE_ACTIVE_CUSTOM_VIEW",
+        payload: renamedCustomView,
+      });
+    }
+  }
+
   return {
     ...state,
     resetGridState,
     switchCustomView,
     createCustomView,
     saveCustomView,
+    renameCustomView,
     onStateUpdated,
   };
 }

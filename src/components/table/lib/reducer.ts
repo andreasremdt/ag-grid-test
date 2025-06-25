@@ -46,6 +46,12 @@ function reducer(
         customViewState: action.payload.state,
       };
 
+    case "UPDATE_ACTIVE_CUSTOM_VIEW":
+      return {
+        ...state,
+        activeCustomView: action.payload,
+      };
+
     case "SET_GRID_READY":
       return { ...state, ready: true };
 

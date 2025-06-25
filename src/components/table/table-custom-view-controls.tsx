@@ -1,6 +1,7 @@
-import { CustomView } from "./lib/types";
 import styles from "./table-custom-view-controls.module.css";
 import useTableCustomViews from "./hooks/use-table-custom-views";
+import TableCustomViewEntry from "./table-custom-view-entry";
+import useInlineEditable from "@/hooks/use-inline-editable";
 
 function TableCustomViewControls() {
   const {
@@ -13,11 +14,8 @@ function TableCustomViewControls() {
     saveCustomView,
   } = useTableCustomViews();
 
-  function isSaveButtonDisabled(customView?: CustomView) {
-    if (!customView || !modified) return true;
-
-    return customView.id !== activeCustomView?.id;
-  }
+  const { editing, onStartEditing, onSubmit, onKeyDown } =
+    useInlineEditable(createCustomView);
 
   if (tableProps.customViewsLayout === "none") {
     return null;
@@ -28,9 +26,24 @@ function TableCustomViewControls() {
       {tableProps.customViewsLayout === "simple" ? (
         <>
           {modified ? (
-            <button type="button" onClick={createCustomView}>
-              Create custom view
-            </button>
+            <>
+              {editing ? (
+                <form onSubmit={onSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Untitled custom view"
+                    onKeyDown={onKeyDown}
+                    autoFocus
+                    name="title"
+                  />
+                  <button type="submit">Ok</button>
+                </form>
+              ) : (
+                <button type="button" onClick={onStartEditing}>
+                  Create custom view
+                </button>
+              )}
+            </>
           ) : null}
 
           {activeCustomView && modified ? (
@@ -65,46 +78,36 @@ function TableCustomViewControls() {
             {tableProps.customViews ? (
               <>
                 {tableProps.customViews.map((customView) => (
-                  <div key={customView.id}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        switchCustomView(customView);
-                        tableProps.onSelectCustomView?.(customView);
-                      }}
-                    >
-                      {customView.title}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        tableProps.onDeleteCustomView?.(customView);
-                        switchCustomView();
-                      }}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      disabled={isSaveButtonDisabled(customView)}
-                      type="button"
-                      onClick={saveCustomView}
-                    >
-                      Save
-                    </button>
-                  </div>
+                  <TableCustomViewEntry
+                    key={customView.id}
+                    customView={customView}
+                  />
                 ))}
 
                 <hr className={styles.separator} />
               </>
             ) : null}
 
-            <button
-              type="button"
-              onClick={createCustomView}
-              disabled={!modified}
-            >
-              Add new custom view
-            </button>
+            {editing ? (
+              <form onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  placeholder="Untitled custom view"
+                  onKeyDown={onKeyDown}
+                  autoFocus
+                  name="title"
+                />
+                <button type="submit">Ok</button>
+              </form>
+            ) : (
+              <button
+                type="button"
+                onClick={onStartEditing}
+                disabled={!modified}
+              >
+                Add new custom view
+              </button>
+            )}
           </div>
         </>
       ) : null}

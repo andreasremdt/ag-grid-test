@@ -41,6 +41,10 @@ export type TableActions =
       payload: CustomView;
     }
   | {
+      type: "UPDATE_ACTIVE_CUSTOM_VIEW";
+      payload: CustomView;
+    }
+  | {
       type: "RESET_MODIFIED_STATE";
     }
   | {
