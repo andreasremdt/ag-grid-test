@@ -6,6 +6,7 @@ export type TableSettings = {
   columnHeadersInCode: boolean;
   enableAdvancedFilter: boolean;
   liveUpdates: boolean;
+  customViewsQuickActions: boolean;
 };
 
 export type TableContextState = {

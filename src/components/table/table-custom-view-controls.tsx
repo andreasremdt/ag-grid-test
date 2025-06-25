@@ -8,6 +8,7 @@ function TableCustomViewControls() {
     modified,
     activeCustomView,
     tableProps,
+    settings,
     resetGridState,
     switchCustomView,
     createCustomView,
@@ -17,7 +18,10 @@ function TableCustomViewControls() {
   const { editing, onStartEditing, onSubmit, onKeyDown } =
     useInlineEditable(createCustomView);
 
-  if (tableProps.customViewsLayout === "none") {
+  if (
+    tableProps.customViewsLayout === "none" ||
+    !settings.customViewsQuickActions
+  ) {
     return null;
   }
 

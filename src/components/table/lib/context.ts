@@ -21,6 +21,7 @@ export function getInitialTableContextState(
       highlightErrors: true,
       columnHeadersInCode: false,
       enableAdvancedFilter: false,
+      customViewsQuickActions: true,
       liveUpdates: true,
     },
     ...overrides,
