@@ -26,6 +26,7 @@ export type TableProps = {
   customViewsLayout?: "none" | "simple" | "dropdown";
   activeCustomView?: CustomView;
   refreshInterval?: number;
+  enableAdvancedFilter?: boolean;
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;

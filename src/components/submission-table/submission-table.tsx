@@ -108,6 +108,7 @@ export default function SubmissionTable() {
         cacheBlockSize={30}
         rowSelection={rowSelection}
         getRowErrorState={getRowErrorState}
+        enableAdvancedFilter
         customViewsLayout="simple"
         customViewsType="cars"
         columnDefs={columnDefs}

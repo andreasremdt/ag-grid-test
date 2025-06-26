@@ -7,17 +7,21 @@ function TableSettings() {
   return (
     <>
       <h3 className={styles.separator}>Table settings</h3>
-      <button
-        className={styles.button}
-        type="button"
-        onClick={() =>
-          setGridSettings({
-            highlightErrors: !settings.highlightErrors,
-          })
-        }
-      >
-        Highlight errors {settings.highlightErrors ? "Yes" : "No"}
-      </button>
+
+      {tableProps.getRowErrorState ? (
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() =>
+            setGridSettings({
+              highlightErrors: !settings.highlightErrors,
+            })
+          }
+        >
+          Highlight errors {settings.highlightErrors ? "Yes" : "No"}
+        </button>
+      ) : null}
+
       <button
         className={styles.button}
         type="button"
@@ -43,17 +47,20 @@ function TableSettings() {
         </button>
       ) : null}
 
-      <button
-        className={styles.button}
-        type="button"
-        onClick={() =>
-          setGridSettings({
-            enableAdvancedFilter: !settings.enableAdvancedFilter,
-          })
-        }
-      >
-        Advanced filters -{settings.enableAdvancedFilter ? "Yes" : "No"}
-      </button>
+      {tableProps.enableAdvancedFilter ? (
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() =>
+            setGridSettings({
+              enableAdvancedFilter: !settings.enableAdvancedFilter,
+            })
+          }
+        >
+          Advanced filters -{settings.enableAdvancedFilter ? "Yes" : "No"}
+        </button>
+      ) : null}
+
       {tableProps.customViewsLayout === "simple" ? (
         <button
           className={styles.button}
