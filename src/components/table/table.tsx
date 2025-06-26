@@ -20,7 +20,7 @@ function Table(props: AgGridReactProps) {
   const { defaultColDef, rowClassRules } = useTableState();
 
   return (
-    <div>
+    <div style={{ height: 400 }}>
       <TableToolbar />
 
       {ready ? (
@@ -28,9 +28,10 @@ function Table(props: AgGridReactProps) {
           {...props}
           theme={theme}
           rowHeight={36}
-          domLayout="autoHeight"
+          loadThemeGoogleFonts={false}
           suppressServerSideFullWidthLoadingRow
           suppressDragLeaveHidesColumns
+          suppressCellFocus
           tooltipShowDelay={500}
           tooltipMouseTrack
           animateRows={false}

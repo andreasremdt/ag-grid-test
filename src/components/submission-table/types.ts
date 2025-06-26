@@ -1,0 +1,27 @@
+export type Aggregate = {
+  sub_id: string;
+  phase: string;
+  status: string;
+  rcp_ts: string;
+  prv_id: string;
+  orig_fname: string;
+  action: string | null;
+  arc_ts: string | null;
+  filesize: number;
+  format: string;
+  has_inv: boolean | null;
+  has_unm: boolean | null;
+  int_del: number | null;
+  int_new: number | null;
+  int_upd: number | null;
+  int_ts: string | null;
+  nrm_ts: string | null;
+  num_grp: number | null;
+  num_obs: number | null;
+  num_ser: number | null;
+  num_set: number | null;
+  rep_beg: string | null;
+  rep_df: string | null;
+  rep_end: string | null;
+  tgt_df: string | null;
+};

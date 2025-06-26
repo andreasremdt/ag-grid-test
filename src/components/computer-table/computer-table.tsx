@@ -1,3 +1,5 @@
+"use client";
+
 import type { ColDef, RowClassParams } from "ag-grid-community";
 import Table, { CustomView } from "../table";
 import { useAppContext } from "@/lib/app-context";
