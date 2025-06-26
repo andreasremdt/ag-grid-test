@@ -10,6 +10,8 @@ import {
   ModuleRegistry,
 } from "ag-grid-enterprise";
 import useTableCustomViews from "./hooks/use-table-custom-views";
+import { forwardEvent } from "@/lib/utils";
+import useTableLiveUpdates from "./hooks/use-table-live-updates";
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
 LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
@@ -17,7 +19,8 @@ LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
 function Table(props: AgGridReactProps) {
   const { ready, customViewState, settings, onStateUpdated } =
     useTableCustomViews();
-  const { defaultColDef, rowClassRules } = useTableState();
+  const { defaultColDef, rowClassRules, onGridReady } = useTableState();
+  const { onGridReadyForLiveUpdates } = useTableLiveUpdates();
 
   return (
     <div style={{ height: 400 }}>
@@ -36,7 +39,12 @@ function Table(props: AgGridReactProps) {
           tooltipMouseTrack
           animateRows={false}
           defaultColDef={defaultColDef}
-          onStateUpdated={onStateUpdated}
+          onStateUpdated={forwardEvent(props.onStateUpdated, onStateUpdated)}
+          onGridReady={forwardEvent(
+            props.onGridReady,
+            onGridReady,
+            onGridReadyForLiveUpdates
+          )}
           initialState={customViewState}
           rowClassRules={rowClassRules}
           enableAdvancedFilter={settings.enableAdvancedFilter}

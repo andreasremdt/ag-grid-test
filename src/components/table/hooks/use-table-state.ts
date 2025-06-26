@@ -1,7 +1,12 @@
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import TableContext from "../lib/context";
 import type { TableSettings } from "../lib/types";
-import { ColDef, RowClassParams, RowClassRules } from "ag-grid-community";
+import {
+  ColDef,
+  GridReadyEvent,
+  RowClassParams,
+  RowClassRules,
+} from "ag-grid-community";
 import styles from "../table.module.css";
 
 function useTableState() {
@@ -13,12 +18,6 @@ function useTableState() {
 
   const { state, dispatch } = context;
 
-  /**
-   * Updates one or more grid settings, such as live updates, or advanced filters. The grid will
-   * be re-rendered after the settings are applied.
-   *
-   * @param payload
-   */
   function setGridSettings(payload: Partial<TableSettings>) {
     dispatch({ type: "TOGGLE_TABLE_SETTING", payload });
 
@@ -57,11 +56,16 @@ function useTableState() {
     [state.settings.columnHeadersInCode, state.tableProps.defaultColDef]
   );
 
+  const onGridReady = useCallback(({ api }: GridReadyEvent) => {
+    dispatch({ type: "INIT_GRID_API", payload: api });
+  }, []);
+
   return {
     ...state,
-    setGridSettings,
     rowClassRules,
     defaultColDef,
+    onGridReady,
+    setGridSettings,
   };
 }
 

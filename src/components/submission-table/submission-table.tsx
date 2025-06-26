@@ -102,6 +102,7 @@ export default function SubmissionTable() {
         rowGroupPanelShow="always"
         customViews={carCustomViews}
         defaultColDef={defaultColDef}
+        refreshInterval={30000}
         sideBar={sideBar}
         getRowId={getRowId}
         cacheBlockSize={30}

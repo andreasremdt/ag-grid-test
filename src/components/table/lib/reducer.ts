@@ -65,6 +65,9 @@ function reducer(
     case "INIT":
       return { ...state, ...action.payload };
 
+    case "INIT_GRID_API":
+      return { ...state, api: action.payload };
+
     default:
       return state;
   }

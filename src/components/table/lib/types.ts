@@ -25,6 +25,7 @@ export type TableProps = {
   customViews?: CustomView[];
   customViewsLayout?: "none" | "simple" | "dropdown";
   activeCustomView?: CustomView;
+  refreshInterval?: number;
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
@@ -65,10 +66,13 @@ export type TableActions =
   | {
       type: "INIT";
       payload: {
-        api: GridApi;
         initialCustomViewState: GridState;
         activeCustomView?: CustomView;
       };
+    }
+  | {
+      type: "INIT_GRID_API";
+      payload: GridApi;
     };
 
 export type CustomView = {

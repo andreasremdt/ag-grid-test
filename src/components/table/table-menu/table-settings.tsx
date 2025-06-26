@@ -30,13 +30,19 @@ function TableSettings() {
         Show column headers in code format -{" "}
         {settings.columnHeadersInCode ? "Yes" : "No"}
       </button>
-      <button
-        className={styles.button}
-        type="button"
-        onClick={() => setGridSettings({ liveUpdates: !settings.liveUpdates })}
-      >
-        Disable live updates -{settings.liveUpdates ? "Yes" : "No"}
-      </button>
+
+      {tableProps.refreshInterval ? (
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() =>
+            setGridSettings({ liveUpdates: !settings.liveUpdates })
+          }
+        >
+          Live updates -{settings.liveUpdates ? "Yes" : "No"}
+        </button>
+      ) : null}
+
       <button
         className={styles.button}
         type="button"

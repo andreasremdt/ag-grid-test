@@ -14,7 +14,7 @@ function useTableCustomViews() {
   const { state, dispatch } = context;
 
   const onStateUpdated = useCallback(
-    ({ sources, api, state: gridState }: StateUpdatedEvent) => {
+    ({ sources, state: gridState }: StateUpdatedEvent) => {
       if (sources.includes("rowGroupExpansion") && sources.length === 1) {
         return;
       }
@@ -22,9 +22,9 @@ function useTableCustomViews() {
       if (sources.includes("gridInitializing")) {
         dispatch({
           type: "INIT",
-          payload: { api: api, initialCustomViewState: gridState },
+          payload: { initialCustomViewState: gridState },
         });
-      } else if (deepEqual(state.initialCustomViewState, state)) {
+      } else if (deepEqual(state.initialCustomViewState, gridState)) {
         dispatch({ type: "RESET_MODIFIED_STATE" });
         setGridReady();
       } else {
