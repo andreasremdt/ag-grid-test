@@ -6,6 +6,7 @@ import {
   GridReadyEvent,
   RowClassParams,
   RowClassRules,
+  RowSelectedEvent,
 } from "ag-grid-community";
 import styles from "../table.module.css";
 
@@ -60,12 +61,17 @@ function useTableState() {
     dispatch({ type: "INIT_GRID_API", payload: api });
   }, []);
 
+  const onRowSelected = useCallback(({ api }: RowSelectedEvent) => {
+    dispatch({ type: "SET_ROW_SELECTION", payload: api.getSelectedRows() });
+  }, []);
+
   return {
     ...state,
     rowClassRules,
     defaultColDef,
     onGridReady,
     setGridSettings,
+    onRowSelected,
   };
 }
 

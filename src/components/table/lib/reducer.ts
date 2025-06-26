@@ -52,6 +52,9 @@ function reducer(
         activeCustomView: action.payload,
       };
 
+    case "SET_ROW_SELECTION":
+      return { ...state, rowSelection: action.payload };
+
     case "SET_GRID_READY":
       return { ...state, ready: true };
 

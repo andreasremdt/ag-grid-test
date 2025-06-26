@@ -17,6 +17,7 @@ export type TableContextState = {
   settings: TableSettings;
   ready: boolean;
   api: GridApi | null;
+  rowSelection: object[];
   tableProps: TableProps & AgGridReactProps;
 };
 
@@ -27,6 +28,11 @@ export type TableProps = {
   activeCustomView?: CustomView;
   refreshInterval?: number;
   enableAdvancedFilter?: boolean;
+  getSelectionOptions?: (selection: object[]) => {
+    icon: string;
+    title: string;
+    callback: () => void;
+  }[];
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;
@@ -55,6 +61,10 @@ export type TableActions =
     }
   | {
       type: "SET_GRID_READY";
+    }
+  | {
+      type: "SET_ROW_SELECTION";
+      payload: object[];
     }
   | {
       type: "PERSIST_CUSTOM_VIEW_STATE";

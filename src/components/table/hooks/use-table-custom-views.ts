@@ -4,6 +4,16 @@ import type { StateUpdatedEvent } from "ag-grid-community";
 import type { CustomView } from "../lib/types";
 import deepEqual from "@/lib/deep-equal";
 
+function isExcludedGridEvent(sources: string[]) {
+  const excludedEvents = ["rowGroupExpansion", "rowSelection"];
+
+  if (sources.length === 1) {
+    return sources.every((value) => excludedEvents.includes(value));
+  }
+
+  return false;
+}
+
 function useTableCustomViews() {
   const context = useContext(TableContext);
 
@@ -15,7 +25,7 @@ function useTableCustomViews() {
 
   const onStateUpdated = useCallback(
     ({ sources, state: gridState }: StateUpdatedEvent) => {
-      if (sources.includes("rowGroupExpansion") && sources.length === 1) {
+      if (isExcludedGridEvent(sources)) {
         return;
       }
 

@@ -19,7 +19,8 @@ LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
 function Table(props: AgGridReactProps) {
   const { ready, customViewState, settings, onStateUpdated } =
     useTableCustomViews();
-  const { defaultColDef, rowClassRules, onGridReady } = useTableState();
+  const { defaultColDef, rowClassRules, onGridReady, onRowSelected } =
+    useTableState();
   const { onGridReadyForLiveUpdates } = useTableLiveUpdates();
 
   return (
@@ -40,6 +41,7 @@ function Table(props: AgGridReactProps) {
           animateRows={false}
           defaultColDef={defaultColDef}
           onStateUpdated={forwardEvent(props.onStateUpdated, onStateUpdated)}
+          onRowSelected={forwardEvent(props.onRowSelected, onRowSelected)}
           onGridReady={forwardEvent(
             props.onGridReady,
             onGridReady,

@@ -24,6 +24,19 @@ const defaultColDef: ColDef = {
   enableRowGroup: true,
 };
 
+const getSelectionOptions = (selection: object[]) => [
+  {
+    icon: "Download",
+    title: `Download ${selection.length} submissions`,
+    callback: () => console.log(`Download ${selection.length} submissions`),
+  },
+  {
+    icon: "Bookmark",
+    title: `Bookmark ${selection.length} submissions`,
+    callback: () => console.log(`Bookmark ${selection.length} submissions`),
+  },
+];
+
 // const contextSource = createContextSource();
 
 const rowSelection: RowSelectionOptions = {
@@ -112,6 +125,7 @@ export default function SubmissionTable() {
         customViewsLayout="simple"
         customViewsType="cars"
         columnDefs={columnDefs}
+        getSelectionOptions={getSelectionOptions}
       />
     </>
   );

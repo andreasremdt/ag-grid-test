@@ -43,7 +43,7 @@ function TableCustomViewEntry({ customView }: Props) {
   }
 
   return (
-    <div key={customView.id}>
+    <div>
       <button
         type="button"
         onClick={() => {

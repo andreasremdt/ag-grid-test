@@ -11,6 +11,7 @@ export function getInitialTableContextState(
 ): TableContextState {
   return {
     modified: false,
+    rowSelection: [],
     ready: true,
     api: null,
     activeCustomView: undefined,
