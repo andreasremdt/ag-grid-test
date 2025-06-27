@@ -121,6 +121,7 @@ export default function SubmissionTable() {
         cacheBlockSize={30}
         rowSelection={rowSelection}
         getRowErrorState={getRowErrorState}
+        quickFilter="Search submissions"
         enableAdvancedFilter
         customViewsLayout="simple"
         customViewsType="cars"

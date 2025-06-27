@@ -28,6 +28,7 @@ export type TableProps = {
   activeCustomView?: CustomView;
   refreshInterval?: number;
   enableAdvancedFilter?: boolean;
+  quickFilter?: string;
   getSelectionOptions?: (selection: object[]) => {
     icon: string;
     title: string;

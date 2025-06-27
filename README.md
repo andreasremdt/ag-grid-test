@@ -1,6 +1,34 @@
 # Test Cases
 
-## Table Menu
+## Row Selection
+
+- The `onRowSelected` prop should be forwarded to the table called accordingly.
+- The prop `getSelectionOptions` can be set on the table and accepts a function.
+- The selection controls are not rendered unless at least one row is selected.
+- The selection controls are rendered as specified in the `getSelectionOptions` return value and receive the selection array.
+
+## Quick filter
+
+- The prop `quickFilter` can be set on the table and accepts a string.
+- If the prop `quickFilter` is set, the search button appears in the table toolbar.
+- If the prop `quickFilter` is not set, the search button does not appear in the table toolbar.
+- Clicking on the search button shows the search textbox. It is hidden otherwise.
+- Typing into the search textbox sets the `s` query parameter with a delay of 500ms.
+- Typing into the search textbox updates the grid with a delay of 500ms.
+- If the URL query parameter `s` is set while the page loads, the search textbox will apply that as its default value.
+- Pressing ESC while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
+- Clicking on the Close button while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
+
+## Custom views
+
+- The prop `customViewsLayout` can be set on the table and accepts "dropdown", "simple", or "none".
+
+### "simple" custom view layout
+
+- As long as the table state remains unchanged, no controls are visible.
+- When the table state changes (sort order, column order, filter, etc.) and no custom view is currently selected, the "Create custom view" and "Reset view" button appear on the top left.
+
+## Table menu
 
 ### Highlight errors
 
