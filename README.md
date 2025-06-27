@@ -4,7 +4,7 @@
 
 - The `onRowSelected` prop should be forwarded to the table called accordingly.
 - The prop `getSelectionOptions` can be set on the table and accepts a function.
-- The selection controls are not rendered unless at least one row is selected.
+- The selection controls are not rendered unless at least one row is selected and unless at least one action is provided.
 - The selection controls are rendered as specified in the `getSelectionOptions` return value and receive the selection array.
 
 ## Quick filter
@@ -29,6 +29,13 @@
 - When the table state changes (sort order, column order, filter, etc.) and no custom view is currently selected, the "Create custom view" and "Reset view" button appear on the top left.
 
 ## Table menu
+
+### Table actions
+
+- The prop `getTableActions` can be set on the table and accepts a function.
+- If the prop is not provided, the table actions section is not rendered inside the table menu.
+- If the prop is provided and has at least one action, the table actions section is rendered inside the table menu.
+- For each action, a button and icon are rendered. The callback is called when the button is clicked.
 
 ### Highlight errors
 

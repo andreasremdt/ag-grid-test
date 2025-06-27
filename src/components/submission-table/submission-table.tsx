@@ -37,6 +37,14 @@ const getSelectionOptions = (selection: object[]) => [
   },
 ];
 
+const getTableActions = () => [
+  {
+    icon: "Download",
+    title: `Download`,
+    callback: () => console.log(`Download all submissions`),
+  },
+];
+
 // const contextSource = createContextSource();
 
 const rowSelection: RowSelectionOptions = {
@@ -120,13 +128,14 @@ export default function SubmissionTable() {
         getRowId={getRowId}
         cacheBlockSize={30}
         rowSelection={rowSelection}
-        getRowErrorState={getRowErrorState}
         quickFilter="Search submissions"
         enableAdvancedFilter
         customViewsLayout="simple"
         customViewsType="cars"
         columnDefs={columnDefs}
+        getRowErrorState={getRowErrorState}
         getSelectionOptions={getSelectionOptions}
+        getTableActions={getTableActions}
       />
     </>
   );

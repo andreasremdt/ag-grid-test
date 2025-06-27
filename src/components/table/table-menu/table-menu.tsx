@@ -3,6 +3,7 @@ import styles from "./table-menu.module.css";
 import TableSettings from "./table-settings";
 import CustomViewActions from "./custom-view-actions";
 import CustomViewList from "./custom-view-list";
+import TableActions from "./table-actions";
 
 function TableMenu() {
   const id = useId();
@@ -32,6 +33,8 @@ function TableMenu() {
                 Change custom view
               </button>
             </CustomViewActions>
+
+            <TableActions />
 
             <TableSettings />
           </>
