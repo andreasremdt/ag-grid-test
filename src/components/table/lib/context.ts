@@ -15,6 +15,7 @@ export function getInitialTableContextState(
       activeView: undefined,
       modifiedState: undefined,
       initialState: {},
+      ...overrides.customViews,
     },
     rowSelection: [],
     ready: true,

@@ -7,7 +7,6 @@ function TableCustomViewControls() {
   const {
     customViews,
     tableProps,
-    settings,
     resetGridState,
     switchCustomView,
     createCustomView,
@@ -19,7 +18,7 @@ function TableCustomViewControls() {
 
   if (
     tableProps.customViewsLayout === "none" ||
-    !settings.customViewsQuickActions
+    !tableProps.customViewsQuickActions
   ) {
     return null;
   }

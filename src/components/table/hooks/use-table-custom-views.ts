@@ -28,7 +28,7 @@ function useTableCustomViews() {
       if (isExcludedGridEvent(sources)) {
         return;
       }
-      console.log(state.customViews.initialState);
+
       if (sources.includes("gridInitializing")) {
         dispatch({ type: "INIT", payload: gridState });
       } else if (deepEqual(state.customViews.initialState, gridState)) {

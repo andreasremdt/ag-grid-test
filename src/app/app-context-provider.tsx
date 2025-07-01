@@ -9,6 +9,19 @@ export default function AppContextProvider({
 }: {
   children: ReactNode;
 }) {
+  const [liveUpdates, setLiveUpdates] = useState<boolean>(() => {
+    return localStorage.getItem("live-updates") === "true";
+  });
+  const [columnHeadersInCode, setColumnHeadersInCode] = useState<boolean>(
+    () => {
+      return localStorage.getItem("column-headers") === "true";
+    }
+  );
+  const [customViewQuickActions, setCustomViewQuickActions] = useState<boolean>(
+    () => {
+      return localStorage.getItem("custom-view-quick-actions") === "true";
+    }
+  );
   const [customViews, setCustomViews] = useState<CustomView[]>(() => {
     const items = localStorage.getItem("test.custom-views");
 
@@ -54,10 +67,40 @@ export default function AppContextProvider({
     applyChangesToState(updatedCustomViews);
   }
 
+  function toggleLiveUpdates() {
+    const newValue = !liveUpdates;
+
+    setLiveUpdates(newValue);
+
+    localStorage.setItem("live-updates", String(newValue));
+  }
+
+  function toggleColumnHeadersInCode() {
+    const newValue = !columnHeadersInCode;
+
+    setColumnHeadersInCode(newValue);
+
+    localStorage.setItem("column-headers", String(newValue));
+  }
+
+  function toggleCustomViewQuickActions() {
+    const newValue = !customViewQuickActions;
+
+    setCustomViewQuickActions(newValue);
+
+    localStorage.setItem("custom-view-quick-actions", String(newValue));
+  }
+
   return (
     <AppContext.Provider
       value={{
         customViews,
+        liveUpdates,
+        columnHeadersInCode,
+        customViewQuickActions,
+        toggleLiveUpdates,
+        toggleColumnHeadersInCode,
+        toggleCustomViewQuickActions,
         onCreateCustomView,
         onSaveCustomView,
         onDeleteCustomView,

@@ -6,13 +6,25 @@ export type AppContextState = {
   onCreateCustomView: (newCustomView: CustomView) => void;
   onSaveCustomView: (savedCustomView: CustomView) => void;
   onDeleteCustomView: (deletedCustomView: CustomView) => void;
+  liveUpdates: boolean;
+  columnHeadersInCode: boolean;
+  customViewQuickActions: boolean;
+  toggleLiveUpdates: () => void;
+  toggleColumnHeadersInCode: () => void;
+  toggleCustomViewQuickActions: () => void;
 };
 
 const AppContext = createContext<AppContextState>({
   customViews: [],
+  liveUpdates: true,
+  columnHeadersInCode: false,
+  customViewQuickActions: true,
   onCreateCustomView: () => {},
   onSaveCustomView: () => {},
   onDeleteCustomView: () => {},
+  toggleLiveUpdates: () => {},
+  toggleColumnHeadersInCode: () => {},
+  toggleCustomViewQuickActions: () => {},
 });
 
 export function useAppContext() {

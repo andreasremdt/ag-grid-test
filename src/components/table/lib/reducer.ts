@@ -86,6 +86,9 @@ function reducer(
         customViews: { ...state.customViews, initialState: action.payload },
       };
 
+    case "DESTROY":
+      return { ...state, ready: false };
+
     case "INIT_GRID_API":
       return { ...state, api: action.payload };
 

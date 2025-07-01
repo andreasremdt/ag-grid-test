@@ -17,11 +17,11 @@ ModuleRegistry.registerModules([AllEnterpriseModule]);
 LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
 
 function Table(props: AgGridReactProps) {
-  const { ready, customViewState, settings, onStateUpdated } =
+  const { ready, customViews, settings, onStateUpdated } =
     useTableCustomViews();
   const { defaultColDef, rowClassRules, onGridReady, onRowSelected } =
     useTableState();
-  const { onGridReadyForLiveUpdates } = useTableLiveUpdates();
+  useTableLiveUpdates();
 
   return (
     <div style={{ height: 400 }}>
@@ -42,12 +42,8 @@ function Table(props: AgGridReactProps) {
           defaultColDef={defaultColDef}
           onStateUpdated={forwardEvent(props.onStateUpdated, onStateUpdated)}
           onRowSelected={forwardEvent(props.onRowSelected, onRowSelected)}
-          onGridReady={forwardEvent(
-            props.onGridReady,
-            onGridReady,
-            onGridReadyForLiveUpdates
-          )}
-          initialState={customViewState}
+          onGridReady={forwardEvent(props.onGridReady, onGridReady)}
+          initialState={customViews.modifiedState}
           rowClassRules={rowClassRules}
           enableAdvancedFilter={settings.enableAdvancedFilter}
         />

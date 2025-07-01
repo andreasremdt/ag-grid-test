@@ -90,6 +90,12 @@ export default function SubmissionTable() {
   const router = useRouter();
   const {
     customViews,
+    toggleColumnHeadersInCode,
+    columnHeadersInCode,
+    liveUpdates,
+    customViewQuickActions,
+    toggleCustomViewQuickActions,
+    toggleLiveUpdates,
     onCreateCustomView,
     onSaveCustomView,
     onDeleteCustomView,
@@ -125,13 +131,18 @@ export default function SubmissionTable() {
         rowGroupPanelShow="always"
         customViews={carCustomViews}
         defaultColDef={defaultColDef}
-        refreshInterval={30000}
+        liveUpdatesInterval={liveUpdates ? 3000 : undefined}
+        onToggleLiveUpdates={toggleLiveUpdates}
         sideBar={sideBar}
         getRowId={getRowId}
         cacheBlockSize={30}
         rowSelection={rowSelection}
+        columnHeaderFormat={columnHeadersInCode ? "code" : "text"}
+        onToggleColumnHeaderFormat={toggleColumnHeadersInCode}
         quickFilter="Search submissions"
         enableAdvancedFilter
+        customViewsQuickActions={customViewQuickActions}
+        onToggleCustomViewsQuickActions={toggleCustomViewQuickActions}
         customViewsLayout="simple"
         customViewsType="cars"
         columnDefs={columnDefs}

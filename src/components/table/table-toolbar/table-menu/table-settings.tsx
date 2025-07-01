@@ -22,28 +22,24 @@ function TableSettings() {
         </button>
       ) : null}
 
-      <button
-        className={styles.button}
-        type="button"
-        onClick={() =>
-          setGridSettings({
-            columnHeadersInCode: !settings.columnHeadersInCode,
-          })
-        }
-      >
-        Show column headers in code format -{" "}
-        {settings.columnHeadersInCode ? "Yes" : "No"}
-      </button>
-
-      {tableProps.refreshInterval ? (
+      {tableProps.onToggleColumnHeaderFormat ? (
         <button
           className={styles.button}
           type="button"
-          onClick={() =>
-            setGridSettings({ liveUpdates: !settings.liveUpdates })
-          }
+          onClick={tableProps.onToggleColumnHeaderFormat}
         >
-          Live updates -{settings.liveUpdates ? "Yes" : "No"}
+          Show column headers in code format -{" "}
+          {tableProps.columnHeaderFormat === "code" ? "Yes" : "No"}
+        </button>
+      ) : null}
+
+      {tableProps.onToggleLiveUpdates ? (
+        <button
+          className={styles.button}
+          type="button"
+          onClick={tableProps.onToggleLiveUpdates}
+        >
+          Live updates -{tableProps.liveUpdatesInterval ? "Yes" : "No"}
         </button>
       ) : null}
 
@@ -61,18 +57,15 @@ function TableSettings() {
         </button>
       ) : null}
 
-      {tableProps.customViewsLayout === "simple" ? (
+      {tableProps.customViewsLayout === "simple" &&
+      tableProps.onToggleCustomViewsQuickActions ? (
         <button
           className={styles.button}
           type="button"
-          onClick={() =>
-            setGridSettings({
-              customViewsQuickActions: !settings.customViewsQuickActions,
-            })
-          }
+          onClick={tableProps.onToggleCustomViewsQuickActions}
         >
           Custom views quick actions -
-          {settings.customViewsQuickActions ? "Yes" : "No"}
+          {tableProps.customViewsQuickActions ? "Yes" : "No"}
         </button>
       ) : null}
     </>

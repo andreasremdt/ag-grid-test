@@ -33,6 +33,12 @@ const localStorageKey = `test.custom-views.${customViewsType}.last-active`;
 export default function ComputerTable() {
   const {
     customViews,
+    toggleColumnHeadersInCode,
+    columnHeadersInCode,
+    liveUpdates,
+    customViewQuickActions,
+    toggleCustomViewQuickActions,
+    toggleLiveUpdates,
     onCreateCustomView,
     onSaveCustomView,
     onDeleteCustomView,
@@ -64,6 +70,12 @@ export default function ComputerTable() {
       customViews={computerCustomViews}
       getRowErrorState={getRowErrorState}
       customViewsLayout="dropdown"
+      liveUpdatesInterval={liveUpdates ? 3000 : undefined}
+      onToggleLiveUpdates={toggleLiveUpdates}
+      customViewsQuickActions={customViewQuickActions}
+      onToggleCustomViewsQuickActions={toggleCustomViewQuickActions}
+      columnHeaderFormat={columnHeadersInCode ? "code" : "text"}
+      onToggleColumnHeaderFormat={toggleColumnHeadersInCode}
       rowData={rowData}
       columnDefs={columnDefs}
     />

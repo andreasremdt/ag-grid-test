@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import TableContext from "../lib/context";
 import type { TableSettings } from "../lib/types";
 import {
@@ -46,7 +46,7 @@ function useTableState() {
       headerValueGetter: ({ colDef }): string => {
         const { headerName, field } = colDef as ColDef;
 
-        if (state.settings.columnHeadersInCode) {
+        if (state.tableProps.columnHeaderFormat === "code") {
           return field || headerName || "";
         }
 
@@ -54,8 +54,14 @@ function useTableState() {
       },
       ...state.tableProps.defaultColDef,
     }),
-    [state.settings.columnHeadersInCode, state.tableProps.defaultColDef]
+    [state.tableProps.columnHeaderFormat, state.tableProps.defaultColDef]
   );
+
+  useEffect(() => {
+    dispatch({ type: "DESTROY" });
+
+    setTimeout(() => dispatch({ type: "SET_GRID_READY" }));
+  }, [state.tableProps.columnHeaderFormat]);
 
   const onGridReady = useCallback(async ({ api }: GridReadyEvent) => {
     const context = await state.tableProps.contextSource?.get();

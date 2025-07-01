@@ -3,10 +3,7 @@ import { AgGridReactProps } from "ag-grid-react";
 
 export type TableSettings = {
   highlightErrors: boolean;
-  columnHeadersInCode: boolean;
   enableAdvancedFilter: boolean;
-  liveUpdates: boolean;
-  customViewsQuickActions: boolean;
 };
 
 export type TableCustomViews = {
@@ -36,10 +33,15 @@ export type TableProps = {
   customViews?: CustomView[];
   customViewsLayout?: "none" | "simple" | "dropdown";
   activeCustomView?: CustomView;
-  refreshInterval?: number;
   enableAdvancedFilter?: boolean;
   quickFilter?: string;
   contextSource?: TableContextSource;
+  columnHeaderFormat?: "code" | "text";
+  liveUpdatesInterval?: number;
+  customViewsQuickActions?: boolean;
+  onToggleColumnHeaderFormat?: () => void;
+  onToggleLiveUpdates?: () => void;
+  onToggleCustomViewsQuickActions?: () => void;
   getSelectionOptions?: (selection: object[]) => {
     icon: string;
     title: string;
@@ -95,6 +97,7 @@ export type TableActions =
       type: "INIT";
       payload: GridState;
     }
+  | { type: "DESTROY" }
   | {
       type: "INIT_GRID_API";
       payload: GridApi;

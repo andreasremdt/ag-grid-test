@@ -19,6 +19,11 @@
 - Pressing ESC while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
 - Clicking on the Close button while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
 
+## Context source
+
+- The prop `contextSource` can be set on the table and accepts an object with an async `get` function. The `get` function returns an object with as many properties as needed.
+- The `get` function is called upon grid initialization, fetching all data. That data is persisted as `metadata` in the grid's internal context.
+
 ## Custom views
 
 - The prop `customViewsLayout` can be set on the table and accepts "dropdown", "simple", or "none".
@@ -44,25 +49,28 @@
 - If the prop `getRowErrorState` is not set, the option "Highlight errors" does not appears in the table menu.
 - Disabling error highlights via the table menu no longer shows conditional error states for rows.
 - Enabling error highlights via the table menu shows conditional error states for rows.
-- The error highlights setting is scoped to one table - switching it doesn't affect other tables.
+- Error highlights are scoped to one table - switching it doesn't affect other tables.
 - Switching the setting keeps the table state, like column order, sort order, filters, and more.
 
 ### Column header format
 
-- The option "Show column headers in code format" is always visible in the table menu.
-- Enabling column header format changes the column header name to the property name from the data source.
-- Disabling column header format changes the column header name to the provided, formatted string from the column definitions.
+- The prop `columnHeaderFormat` can be set on the table and accepts `text` or `code`.
+- The prop `onToggleColumnHeaderFormat` can be set on the table and accepts a function.
+- If the prop `onToggleColumnHeaderFormat` is set, the option "Show column headers in code format" appears in the table menu. Otherwise, it's hidden.
+- If `columnHeaderFormat` is set to `text`, the column definitions' `headerName` will be rendered, if provided.
+- If `columnHeaderFormat` is set to `code`, the column definitions' `field` will be rendered.
+- Clicking on the "Show column headers in code format" option in the table menu calls `onToggleColumnHeaderFormat`.
 - Column header format is a global setting - switching it affects other tables.
 - Switching the setting keeps the table state, like column order, sort order, filters, and more.
 
 ### Live updates
 
-- The prop `refreshInterval` can be set on the table and accepts a number.
-- If the prop `refreshInterval` is set, the option "Live updates" appears in the table menu.
-- If the prop `refreshInterval` is not set, the option "Live updates" does not appears in the table menu.
-- The table data is refetched in the same interval as specified by `refreshInterval`.
-- Disabling live updates via the table menu pauses the refresh interval.
-- Enabling live updates via the table menu resumes the refresh interval.
+- The prop `liveUpdatesInterval` can be set on the table and accepts a number.
+- The prop `onToggleLiveUpdates` can be set on the table and accepts a function.
+- If the prop `onToggleLiveUpdates` is set, the option "Live updates" appears in the table menu. Otherwise, it's hidden.
+- The table data is refetched in the same interval as specified by `liveUpdatesInterval`.
+- If `liveUpdatesInterval` is not set, the table data is not refetched.
+- Clicking on the "Live updates" option in the table menu calls `onToggleLiveUpdates`.
 - Live updates is a global setting - switching it affects other tables.
 - Switching the setting keeps the table state, like column order, sort order, filters, and more.
 
@@ -74,10 +82,13 @@
 - Enabling advanced filter via the table menu switches the table to display the advanced filter toolbar at the top.
 - Disabling advanced filter via the table menu switches the table to hide the advanced filter toolbar at the top.
 - Switching the setting keeps the table state, like column order, sort order, and more. The only exception is filters, which will be reset naturally.
-- The error advanced filter is scoped to one table - switching it doesn't affect other tables.
+- Advanced filters are scoped to one table - switching it doesn't affect other tables.
 
 ### Custom views quick actions
 
-- The menu option "Custom view quick actions" is only visible of the `customViewsLayout` is set to "simple".
+- The prop `customViewsQuickActions` can be set on the table and accepts a boolean.
+- The prop `onToggleCustomViewsQuickActions` can be set on the table and accepts a function.
+- If the prop `onToggleCustomViewsQuickActions` is set, the option "Custom view quick actions" appears in the table menu. Otherwise, it's hidden.
 - Disabling custom view quick actions via the table menu hides all custom view controls in the _table toolbar_ (on the left side).
 - Enabling custom view quick actions via the table menu shows all custom view controls in the _table toolbar_ (on the left side), given that any custom view state has changed.
+- Switching the setting keeps the table state, like column order, sort order, filters, and more.

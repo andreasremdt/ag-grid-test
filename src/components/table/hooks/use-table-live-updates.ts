@@ -1,6 +1,5 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import TableContext from "../lib/context";
-import type { GridReadyEvent } from "ag-grid-community";
 
 function useTableLiveUpdates() {
   const context = useContext(TableContext);
@@ -12,31 +11,30 @@ function useTableLiveUpdates() {
 
   const { state } = context;
 
-  const onGridReadyForLiveUpdates = useCallback(
-    ({ api }: GridReadyEvent) => {
-      if (state.settings.liveUpdates && state.tableProps.refreshInterval) {
-        interval.current = setInterval(() => {
-          api.refreshServerSide(undefined);
-        }, state.tableProps.refreshInterval);
-      }
-    },
-    [state.settings.liveUpdates, state.tableProps.refreshInterval]
-  );
+  function enableLiveUpdates() {
+    if (state.tableProps.liveUpdatesInterval) {
+      interval.current = setInterval(() => {
+        state.api?.refreshServerSide(undefined);
+      }, state.tableProps.liveUpdatesInterval);
+    }
+  }
 
-  const disableLiveUpdates = useCallback(() => {
+  function disableLiveUpdates() {
     if (interval.current) {
       clearInterval(interval.current);
       interval.current = null;
     }
-  }, []);
+  }
 
   useEffect(() => {
-    if (!state.settings.liveUpdates) {
+    if (!state.api) return;
+
+    if (state.tableProps.liveUpdatesInterval) {
+      enableLiveUpdates();
+    } else {
       disableLiveUpdates();
     }
-  }, [state.settings.liveUpdates]);
-
-  return { onGridReadyForLiveUpdates };
+  }, [state.tableProps.liveUpdatesInterval, state.api]);
 }
 
 export default useTableLiveUpdates;

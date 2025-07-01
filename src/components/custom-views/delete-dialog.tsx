@@ -6,13 +6,7 @@ type Props = ComponentPropsWithoutRef<"dialog"> & {
   onConfirm: () => void;
 };
 
-function DeleteDialog({
-  open,
-  children,
-  onCancel,
-  onConfirm,
-  ...props
-}: Props) {
+function DeleteDialog({ open, onCancel, onConfirm, ...props }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {

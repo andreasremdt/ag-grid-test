@@ -10,10 +10,15 @@ function TableWrapper({
   customViews,
   customViewsLayout,
   activeCustomView,
-  refreshInterval,
   enableAdvancedFilter,
   quickFilter,
   contextSource,
+  columnHeaderFormat = "text",
+  liveUpdatesInterval,
+  customViewsQuickActions = true,
+  onToggleColumnHeaderFormat,
+  onToggleLiveUpdates,
+  onToggleCustomViewsQuickActions,
   getSelectionOptions,
   getTableActions,
   onCreateCustomView,
@@ -26,8 +31,12 @@ function TableWrapper({
   const [state, dispatch] = useReducer(
     reducer,
     getInitialTableContextState({
-      activeCustomView,
-      customViewState: activeCustomView?.state,
+      customViews: {
+        activeView: activeCustomView,
+        modifiedState: activeCustomView?.state,
+        modified: false,
+        initialState: {},
+      },
     })
   );
 
@@ -41,10 +50,15 @@ function TableWrapper({
             customViews,
             customViewsLayout,
             activeCustomView,
-            refreshInterval,
             enableAdvancedFilter,
             quickFilter,
             contextSource,
+            columnHeaderFormat,
+            liveUpdatesInterval,
+            customViewsQuickActions,
+            onToggleColumnHeaderFormat,
+            onToggleLiveUpdates,
+            onToggleCustomViewsQuickActions,
             getSelectionOptions,
             getTableActions,
             onCreateCustomView,
