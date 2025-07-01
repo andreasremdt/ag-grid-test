@@ -38,13 +38,7 @@ const getSelectionOptions = (selection: object[]) => [
   },
 ];
 
-const getTableActions = () => [
-  {
-    icon: "Download",
-    title: `Download`,
-    callback: () => console.log(`Download all submissions`),
-  },
-];
+const tableActions = ["export"];
 
 const contextSource = createContextSource();
 
@@ -148,7 +142,7 @@ export default function SubmissionTable() {
         columnDefs={columnDefs}
         getRowErrorState={getRowErrorState}
         getSelectionOptions={getSelectionOptions}
-        getTableActions={getTableActions}
+        tableActions={tableActions}
       />
     </>
   );

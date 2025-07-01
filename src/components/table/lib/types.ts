@@ -47,11 +47,7 @@ export type TableProps = {
     title: string;
     callback: () => void;
   }[];
-  getTableActions?: () => {
-    icon: string;
-    title: string;
-    callback: () => void;
-  }[];
+  tableActions?: string[];
   onCreateCustomView?: (customView: CustomView) => void;
   onSaveCustomView?: (customView: CustomView) => void;
   onDeleteCustomView?: (customView: CustomView) => void;

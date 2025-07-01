@@ -1,13 +1,11 @@
 import useTableState from "../../hooks/use-table-state";
+import tableActionFactory from "./table-action-factory";
 import styles from "./table-menu.module.css";
 
 function TableActions() {
   const { tableProps } = useTableState();
 
-  if (
-    !tableProps.getTableActions ||
-    tableProps.getTableActions().length === 0
-  ) {
+  if (!tableProps.tableActions?.length) {
     return null;
   }
 
@@ -15,16 +13,7 @@ function TableActions() {
     <>
       <h3 className={styles.separator}>Table actions</h3>
 
-      {tableProps.getTableActions().map((action) => (
-        <button
-          className={styles.button}
-          type="button"
-          onClick={action.callback}
-          key={action.title}
-        >
-          {action.title}
-        </button>
-      ))}
+      {tableProps.tableActions.map(tableActionFactory)}
     </>
   );
 }

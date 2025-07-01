@@ -100,10 +100,13 @@
 
 ### Table actions
 
-- The prop `getTableActions` can be set on the table and accepts a function.
+- The prop `tableActions` can be set on the table and accepts a string array with the following options: "export".
 - If the prop is not provided, the table actions section is not rendered inside the table menu.
 - If the prop is provided and has at least one action, the table actions section is rendered inside the table menu.
-- For each action, a button and icon are rendered. The callback is called when the button is clicked.
+- If the `tableActions` contain "export", the "Download" button is rendered.
+  - Clicking on the button opens a new modal with an input for the filename and a select for the export type.
+  - Clicking on "Cancel" closes the modal and doesn't export anything.
+  - Clicking on "Export data" exports the data with the desired filename and type and closes the modal.
 
 ### Highlight errors
 
