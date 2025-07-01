@@ -1,5 +1,5 @@
 import styles from "./table-custom-view-controls.module.css";
-import useTableCustomViews from "./hooks/use-table-custom-views";
+import useTableCustomViews from "../hooks/use-table-custom-views";
 import TableCustomViewEntry from "./table-custom-view-entry";
 import useInlineEditable from "@/hooks/use-inline-editable";
 

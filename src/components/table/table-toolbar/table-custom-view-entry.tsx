@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DeleteDialog from "../custom-views/delete-dialog";
-import useTableCustomViews from "./hooks/use-table-custom-views";
-import type { CustomView } from "./lib/types";
+import DeleteDialog from "../../custom-views/delete-dialog";
+import useTableCustomViews from "../hooks/use-table-custom-views";
+import type { CustomView } from "../lib/types";
 import useInlineEditable from "@/hooks/use-inline-editable";
 
 type Props = {

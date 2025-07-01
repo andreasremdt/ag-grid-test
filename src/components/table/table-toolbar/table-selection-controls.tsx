@@ -1,4 +1,4 @@
-import useTableState from "./hooks/use-table-state";
+import useTableState from "../hooks/use-table-state";
 
 function TableSelectionControls() {
   const { rowSelection, tableProps } = useTableState();

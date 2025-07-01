@@ -2,7 +2,7 @@
 
 import { AgGridReact, type AgGridReactProps } from "ag-grid-react";
 import theme from "./lib/theme";
-import TableToolbar from "./table-toolbar";
+import TableToolbar from "./table-toolbar/table-toolbar";
 import useTableState from "./hooks/use-table-state";
 import {
   AllEnterpriseModule,

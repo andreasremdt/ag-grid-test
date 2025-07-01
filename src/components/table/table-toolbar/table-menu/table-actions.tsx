@@ -1,4 +1,4 @@
-import useTableState from "../hooks/use-table-state";
+import useTableState from "../../hooks/use-table-state";
 import styles from "./table-menu.module.css";
 
 function TableActions() {

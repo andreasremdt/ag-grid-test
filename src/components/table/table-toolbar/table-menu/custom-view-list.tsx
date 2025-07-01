@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import useTableCustomViews from "../hooks/use-table-custom-views";
+import useTableCustomViews from "../../hooks/use-table-custom-views";
 import TableCustomViewEntry from "../table-custom-view-entry";
 import styles from "./table-menu.module.css";
 

@@ -1,5 +1,5 @@
 import useInlineEditable from "@/hooks/use-inline-editable";
-import useTableCustomViews from "../hooks/use-table-custom-views";
+import useTableCustomViews from "../../hooks/use-table-custom-views";
 import styles from "./table-menu.module.css";
 import type { ReactNode } from "react";
 

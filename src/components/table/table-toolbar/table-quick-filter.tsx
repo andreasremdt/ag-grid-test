@@ -1,5 +1,5 @@
 import { useState, type KeyboardEvent, ChangeEvent, useCallback } from "react";
-import useTableState from "./hooks/use-table-state";
+import useTableState from "../hooks/use-table-state";
 import { useSearchParams } from "next/navigation";
 import { debounce } from "@/lib/utils";
 
