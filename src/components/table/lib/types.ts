@@ -9,6 +9,12 @@ export type TableSettings = {
   customViewsQuickActions: boolean;
 };
 
+export type TableContextSource = {
+  get: () => Promise<{
+    metadata?: object;
+  }>;
+};
+
 export type TableContextState = {
   modified: boolean;
   customViewState?: GridState;
@@ -29,6 +35,7 @@ export type TableProps = {
   refreshInterval?: number;
   enableAdvancedFilter?: boolean;
   quickFilter?: string;
+  contextSource?: TableContextSource;
   getSelectionOptions?: (selection: object[]) => {
     icon: string;
     title: string;

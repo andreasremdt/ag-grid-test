@@ -57,7 +57,15 @@ function useTableState() {
     [state.settings.columnHeadersInCode, state.tableProps.defaultColDef]
   );
 
-  const onGridReady = useCallback(({ api }: GridReadyEvent) => {
+  const onGridReady = useCallback(async ({ api }: GridReadyEvent) => {
+    const context = await state.tableProps.contextSource?.get();
+
+    api.setGridOption("context", {
+      ...context,
+      modifiedFields: [],
+    });
+    api.refreshCells();
+
     dispatch({ type: "INIT_GRID_API", payload: api });
   }, []);
 

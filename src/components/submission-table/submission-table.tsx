@@ -14,6 +14,7 @@ import styles from "./submission-table.module.css";
 import columnDefs from "./column-defs";
 import createDatasource from "./create-datasource";
 import { Aggregate } from "./types";
+import createContextSource from "./create-context-source";
 
 const dataSource = createDatasource(createFetcher("/events/aggregates"));
 
@@ -45,7 +46,7 @@ const getTableActions = () => [
   },
 ];
 
-// const contextSource = createContextSource();
+const contextSource = createContextSource();
 
 const rowSelection: RowSelectionOptions = {
   mode: "multiRow",
@@ -120,6 +121,7 @@ export default function SubmissionTable() {
         activeCustomView={activeCustomView}
         rowModelType="serverSide"
         serverSideDatasource={dataSource}
+        contextSource={contextSource}
         rowGroupPanelShow="always"
         customViews={carCustomViews}
         defaultColDef={defaultColDef}
