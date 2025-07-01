@@ -10,7 +10,7 @@ function TableQuickFilter() {
 
   const { tableProps, api } = useTableState();
 
-  const debouncedSearchChange = useCallback(debounce(updateGrid, 500), []);
+  const debouncedSearchChange = useCallback(debounce(updateGrid, 500), [api]);
 
   function updateGrid(quickFilterText: string) {
     const url = new URL(window.location.href);

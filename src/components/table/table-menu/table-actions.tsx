@@ -20,6 +20,7 @@ function TableActions() {
           className={styles.button}
           type="button"
           onClick={action.callback}
+          key={action.title}
         >
           {action.title}
         </button>
