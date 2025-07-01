@@ -9,6 +9,13 @@ export type TableSettings = {
   customViewsQuickActions: boolean;
 };
 
+export type TableCustomViews = {
+  modified: boolean;
+  modifiedState?: GridState;
+  initialState: GridState;
+  activeView?: CustomView;
+};
+
 export type TableContextSource = {
   get: () => Promise<{
     metadata?: object;
@@ -16,10 +23,7 @@ export type TableContextSource = {
 };
 
 export type TableContextState = {
-  modified: boolean;
-  customViewState?: GridState;
-  initialCustomViewState: GridState;
-  activeCustomView?: CustomView;
+  customViews: TableCustomViews;
   settings: TableSettings;
   ready: boolean;
   api: GridApi | null;
@@ -89,10 +93,7 @@ export type TableActions =
     }
   | {
       type: "INIT";
-      payload: {
-        initialCustomViewState: GridState;
-        activeCustomView?: CustomView;
-      };
+      payload: GridState;
     }
   | {
       type: "INIT_GRID_API";

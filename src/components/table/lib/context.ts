@@ -10,13 +10,15 @@ export function getInitialTableContextState(
   overrides: Partial<TableContextState> = {}
 ): TableContextState {
   return {
-    modified: false,
+    customViews: {
+      modified: false,
+      activeView: undefined,
+      modifiedState: undefined,
+      initialState: {},
+    },
     rowSelection: [],
     ready: true,
     api: null,
-    activeCustomView: undefined,
-    customViewState: undefined,
-    initialCustomViewState: {},
     tableProps: {},
     settings: {
       highlightErrors: true,

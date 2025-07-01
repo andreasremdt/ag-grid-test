@@ -28,13 +28,10 @@ function useTableCustomViews() {
       if (isExcludedGridEvent(sources)) {
         return;
       }
-
+      console.log(state.customViews.initialState);
       if (sources.includes("gridInitializing")) {
-        dispatch({
-          type: "INIT",
-          payload: { initialCustomViewState: gridState },
-        });
-      } else if (deepEqual(state.initialCustomViewState, gridState)) {
+        dispatch({ type: "INIT", payload: gridState });
+      } else if (deepEqual(state.customViews.initialState, gridState)) {
         dispatch({ type: "RESET_MODIFIED_STATE" });
         setGridReady();
       } else {
@@ -42,7 +39,7 @@ function useTableCustomViews() {
         setGridReady();
       }
     },
-    [state.initialCustomViewState]
+    [state.customViews.initialState]
   );
 
   function resetGridState() {
@@ -65,12 +62,12 @@ function useTableCustomViews() {
   }
 
   function createCustomView(title: string) {
-    if (!state.customViewState) return;
+    if (!state.customViews.modifiedState) return;
 
     const newCustomView: CustomView = {
       id: Date.now().toString(),
       title,
-      state: state.customViewState,
+      state: state.customViews.modifiedState,
       type: state.tableProps.customViewsType!,
     };
 
@@ -85,10 +82,10 @@ function useTableCustomViews() {
   function saveCustomView() {
     const gridState = state.api?.getState();
 
-    if (!state.activeCustomView || !gridState) return;
+    if (!state.customViews.activeView || !gridState) return;
 
     const savedCustomView: CustomView = {
-      ...state.activeCustomView,
+      ...state.customViews.activeView,
       state: gridState,
     };
 
@@ -103,7 +100,7 @@ function useTableCustomViews() {
   function renameCustomView(renamedCustomView: CustomView) {
     state.tableProps.onSaveCustomView?.(renamedCustomView);
 
-    if (state.activeCustomView?.id === renamedCustomView.id) {
+    if (state.customViews.activeView?.id === renamedCustomView.id) {
       dispatch({
         type: "UPDATE_ACTIVE_CUSTOM_VIEW",
         payload: renamedCustomView,

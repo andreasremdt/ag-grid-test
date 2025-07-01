@@ -15,9 +15,8 @@ function TableCustomViewEntry({ customView }: Props) {
     switchCustomView,
     saveCustomView,
     renameCustomView,
-    activeCustomView,
+    customViews,
     tableProps,
-    modified,
   } = useTableCustomViews();
 
   const { editing, onStartEditing, onSubmit, onKeyDown } = useInlineEditable(
@@ -25,7 +24,7 @@ function TableCustomViewEntry({ customView }: Props) {
   );
 
   const isSaveButtonDisabled =
-    customView.id === activeCustomView?.id ? !modified : true;
+    customView.id === customViews.activeView?.id ? !customViews.modified : true;
 
   if (editing) {
     return (

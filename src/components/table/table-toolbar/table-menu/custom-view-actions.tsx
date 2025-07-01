@@ -8,13 +8,8 @@ type Props = {
 };
 
 function CustomViewActions({ children }: Props) {
-  const {
-    modified,
-    activeCustomView,
-    resetGridState,
-    createCustomView,
-    saveCustomView,
-  } = useTableCustomViews();
+  const { customViews, resetGridState, createCustomView, saveCustomView } =
+    useTableCustomViews();
 
   const { editing, onStartEditing, onSubmit, onKeyDown } =
     useInlineEditable(createCustomView);
@@ -39,7 +34,7 @@ function CustomViewActions({ children }: Props) {
         <button
           className={styles.button}
           type="button"
-          disabled={!modified}
+          disabled={!customViews.modified}
           onClick={onStartEditing}
         >
           Add new custom view
@@ -48,7 +43,7 @@ function CustomViewActions({ children }: Props) {
       <button
         className={styles.button}
         type="button"
-        disabled={!modified || !activeCustomView}
+        disabled={!customViews.modified || !customViews.activeView}
         onClick={saveCustomView}
       >
         Save new changes
@@ -57,7 +52,7 @@ function CustomViewActions({ children }: Props) {
         className={styles.button}
         type="button"
         onClick={resetGridState}
-        disabled={!modified}
+        disabled={!customViews.modified}
       >
         Reset custom view
       </button>

@@ -5,8 +5,7 @@ import useInlineEditable from "@/hooks/use-inline-editable";
 
 function TableCustomViewControls() {
   const {
-    modified,
-    activeCustomView,
+    customViews,
     tableProps,
     settings,
     resetGridState,
@@ -29,7 +28,7 @@ function TableCustomViewControls() {
     <div>
       {tableProps.customViewsLayout === "simple" ? (
         <>
-          {modified ? (
+          {customViews.modified ? (
             <>
               {editing ? (
                 <form onSubmit={onSubmit}>
@@ -50,7 +49,7 @@ function TableCustomViewControls() {
             </>
           ) : null}
 
-          {activeCustomView && modified ? (
+          {customViews.activeView && customViews.modified ? (
             <button type="button" onClick={saveCustomView}>
               Save changes
             </button>
@@ -65,7 +64,8 @@ function TableCustomViewControls() {
             popoverTarget="custom-views-menu"
             className={styles.toggle}
           >
-            <b>Custom view:</b> {activeCustomView?.title || "Default view"}
+            <b>Custom view:</b>{" "}
+            {customViews.activeView?.title || "Default view"}
           </button>
 
           <div id="custom-views-menu" popover="auto" className={styles.popover}>
@@ -107,7 +107,7 @@ function TableCustomViewControls() {
               <button
                 type="button"
                 onClick={onStartEditing}
-                disabled={!modified}
+                disabled={!customViews.modified}
               >
                 Add new custom view
               </button>
@@ -116,7 +116,7 @@ function TableCustomViewControls() {
         </>
       ) : null}
 
-      {modified ? (
+      {customViews.modified ? (
         <button type="button" onClick={resetGridState}>
           Reset view
         </button>

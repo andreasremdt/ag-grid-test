@@ -2,20 +2,6 @@ import type { ColDef } from "ag-grid-community";
 import type { Aggregate } from "./types";
 
 const columnDefs: ColDef<Aggregate>[] = [
-  // {
-  //   headerName: 'Actions',
-  //   cellRenderer: RowActions,
-  //   minWidth: 82,
-  //   maxWidth: 82,
-  //   cellStyle: { '--ag-cell-horizontal-padding': '6px' },
-  //   pinned: 'left',
-  //   resizable: false,
-  //   lockPosition: true,
-  //   lockPinned: true,
-  //   enableRowGroup: false,
-  //   suppressHeaderMenuButton: true,
-  //   sortable: false,
-  // },
   {
     field: "sub_id",
     headerName: "Submission ID",
