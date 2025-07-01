@@ -115,7 +115,7 @@ function TableCustomViewControls() {
         </>
       ) : null}
 
-      {customViews.modified ? (
+      {customViews.modified && !editing ? (
         <button type="button" onClick={resetGridState}>
           Reset view
         </button>

@@ -17,22 +17,14 @@ function TableMenu() {
 
       <div id={id} popover="auto" className={styles.popover}>
         {listCustomViews ? (
-          <CustomViewList>
-            <button type="button" onClick={() => setListCustomViews(false)}>
-              Back
-            </button>
-          </CustomViewList>
+          <CustomViewList
+            onHideCustomViewsList={() => setListCustomViews(false)}
+          />
         ) : (
           <>
-            <CustomViewActions>
-              <button
-                className={styles.button}
-                type="button"
-                onClick={() => setListCustomViews(true)}
-              >
-                Change custom view
-              </button>
-            </CustomViewActions>
+            <CustomViewActions
+              onShowCustomViewsList={() => setListCustomViews(true)}
+            />
 
             <TableActions />
 

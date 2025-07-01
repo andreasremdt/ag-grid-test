@@ -1,24 +1,27 @@
-import type { ReactNode } from "react";
 import useTableCustomViews from "../../hooks/use-table-custom-views";
 import TableCustomViewEntry from "../table-custom-view-entry";
 import styles from "./table-menu.module.css";
 
 type Props = {
-  children: ReactNode;
+  onHideCustomViewsList: () => void;
 };
 
-function CustomViewList({ children }: Props) {
+function CustomViewList({ onHideCustomViewsList }: Props) {
   const { tableProps, switchCustomView } = useTableCustomViews();
 
   return (
     <>
-      {children}
+      <button type="button" onClick={onHideCustomViewsList}>
+        Back
+      </button>
 
       <h3 className={styles.separator}>Change custom view</h3>
+
       <button
         type="button"
         onClick={() => {
           switchCustomView();
+          onHideCustomViewsList();
           tableProps.onSelectCustomView?.();
         }}
       >
