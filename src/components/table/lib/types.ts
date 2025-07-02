@@ -13,6 +13,16 @@ export type TableCustomViews = {
   activeView?: CustomView;
 };
 
+export type TableEmptyState = {
+  title?: string;
+  description?: string;
+  filters?: {
+    title?: string;
+    description?: string;
+    reset?: boolean;
+  };
+};
+
 export type TableContextSource = {
   get: () => Promise<{
     metadata?: object;
@@ -39,6 +49,7 @@ export type TableProps = {
   columnHeaderFormat?: "code" | "text";
   liveUpdatesInterval?: number;
   customViewsQuickActions?: boolean;
+  emptyState?: TableEmptyState;
   onToggleColumnHeaderFormat?: () => void;
   onToggleLiveUpdates?: () => void;
   onToggleCustomViewsQuickActions?: () => void;

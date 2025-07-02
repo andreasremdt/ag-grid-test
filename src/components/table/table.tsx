@@ -12,6 +12,7 @@ import {
 import useTableCustomViews from "./hooks/use-table-custom-views";
 import { forwardEvent } from "@/lib/utils";
 import useTableLiveUpdates from "./hooks/use-table-live-updates";
+import TableEmptyState from "./table-empty-state/table-empty-state";
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
 LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE!);
@@ -45,6 +46,7 @@ function Table(props: AgGridReactProps) {
           onGridReady={forwardEvent(props.onGridReady, onGridReady)}
           initialState={customViews.modifiedState}
           rowClassRules={rowClassRules}
+          noRowsOverlayComponent={TableEmptyState}
           enableAdvancedFilter={settings.enableAdvancedFilter}
         />
       ) : (

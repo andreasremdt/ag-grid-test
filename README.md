@@ -19,6 +19,14 @@
 - Pressing ESC while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
 - Clicking on the Close button while the search textbox is visible clears the URL query parameter, resets the grid, and hides the textbox.
 
+## Empty state
+
+- The prop `emptyState` can be set on the table and accepts an object.
+- On the first level, the object can receive `title`, `description`, and `filters`.
+- All properties are optional. If a property is omitted, the default value is used.
+- The "title" and "description" of `filters` are used only when a table filter is set.
+- The "Reset filters" button is only shown when `filters.reset` is set to true and the table filter is set.
+
 ## Context source
 
 - The prop `contextSource` can be set on the table and accepts an object with an async `get` function. The `get` function returns an object with as many properties as needed.

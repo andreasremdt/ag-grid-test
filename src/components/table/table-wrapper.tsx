@@ -17,6 +17,7 @@ function TableWrapper({
   liveUpdatesInterval,
   customViewsQuickActions = true,
   tableActions = [],
+  emptyState,
   onToggleColumnHeaderFormat,
   onToggleLiveUpdates,
   onToggleCustomViewsQuickActions,
@@ -72,7 +73,7 @@ function TableWrapper({
         dispatch,
       }}
     >
-      <Table {...props} />
+      <Table noRowsOverlayComponentParams={emptyState} {...props} />
     </TableContext.Provider>
   );
 }

@@ -7,7 +7,7 @@ import type {
   RowSelectionOptions,
   SideBarDef,
 } from "ag-grid-community";
-import Table, { createFetcher } from "../table";
+import Table, { type TableEmptyState, createFetcher } from "../table";
 import { useAppContext } from "@/lib/app-context";
 import { useParams, useRouter } from "next/navigation";
 import styles from "./submission-table.module.css";
@@ -70,6 +70,16 @@ const sideBar: SideBarDef = {
       toolPanel: "agFiltersToolPanel",
     },
   ],
+};
+
+const emptyState: TableEmptyState = {
+  title: "No submissions found",
+  description: "No data is available for this dataset.",
+  filters: {
+    title: "No submissions found after filter",
+    description: "Try adjusting your search or filter options if you have any.",
+    reset: true,
+  },
 };
 
 const customViewsType = "cars";
@@ -140,6 +150,7 @@ export default function SubmissionTable() {
         customViewsLayout="simple"
         customViewsType="cars"
         columnDefs={columnDefs}
+        emptyState={emptyState}
         getRowErrorState={getRowErrorState}
         getSelectionOptions={getSelectionOptions}
         tableActions={tableActions}
