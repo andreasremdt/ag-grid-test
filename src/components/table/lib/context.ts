@@ -23,10 +23,7 @@ export function getInitialTableContextState(
     tableProps: {},
     settings: {
       highlightErrors: true,
-      columnHeadersInCode: false,
       enableAdvancedFilter: false,
-      customViewsQuickActions: true,
-      liveUpdates: true,
     },
     ...overrides,
   };

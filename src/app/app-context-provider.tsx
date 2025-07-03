@@ -22,6 +22,15 @@ export default function AppContextProvider({
       return localStorage.getItem("custom-view-quick-actions") === "true";
     }
   );
+  const [bookmarks, setBookmarks] = useState<string[]>(() => {
+    const items = localStorage.getItem("bookmarks");
+
+    if (items) {
+      return JSON.parse(items);
+    }
+
+    return [];
+  });
   const [customViews, setCustomViews] = useState<CustomView[]>(() => {
     const items = localStorage.getItem("test.custom-views");
 
@@ -91,6 +100,19 @@ export default function AppContextProvider({
     localStorage.setItem("custom-view-quick-actions", String(newValue));
   }
 
+  function updateBookmarks(selection: object[]) {
+    const ids = selection.map((s) => s.sub_id);
+
+    const toAdd = ids.filter((id) => !bookmarks.includes(id));
+    const toDelete = ids.filter((id) => bookmarks.includes(id));
+
+    const cleanedBookmarks = bookmarks.filter((b) => toDelete.includes(b));
+    const updatedBookmarks = [...cleanedBookmarks, ...toAdd];
+
+    setBookmarks(updatedBookmarks);
+    localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -98,6 +120,8 @@ export default function AppContextProvider({
         liveUpdates,
         columnHeadersInCode,
         customViewQuickActions,
+        bookmarks,
+        updateBookmarks,
         toggleLiveUpdates,
         toggleColumnHeadersInCode,
         toggleCustomViewQuickActions,

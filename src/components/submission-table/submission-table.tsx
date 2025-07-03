@@ -7,16 +7,20 @@ import type {
   RowSelectionOptions,
   SideBarDef,
 } from "ag-grid-community";
-import Table, { type TableEmptyState, createFetcher } from "../table";
+import Table from "../table";
 import { useAppContext } from "@/lib/app-context";
 import { useParams, useRouter } from "next/navigation";
 import styles from "./submission-table.module.css";
 import columnDefs from "./column-defs";
-import createDatasource from "./create-datasource";
 import { Aggregate } from "./types";
 import createContextSource from "./create-context-source";
+import { useCallback } from "react";
+import useDataSource from "./use-data-source";
+import useEmptyState from "./use-empty-state";
 
-const dataSource = createDatasource(createFetcher("/events/aggregates"));
+type Props = {
+  bookmarks?: string[];
+};
 
 const getRowId: GetRowIdFunc = ({ data }): string =>
   `${data.sub_id}.${data.rcp_ts}`;
@@ -24,19 +28,6 @@ const getRowId: GetRowIdFunc = ({ data }): string =>
 const defaultColDef: ColDef = {
   enableRowGroup: true,
 };
-
-const getSelectionOptions = (selection: object[]) => [
-  {
-    icon: "Download",
-    title: `Download ${selection.length} submissions`,
-    callback: () => console.log(`Download ${selection.length} submissions`),
-  },
-  {
-    icon: "Bookmark",
-    title: `Bookmark ${selection.length} submissions`,
-    callback: () => console.log(`Bookmark ${selection.length} submissions`),
-  },
-];
 
 const tableActions = ["export"];
 
@@ -72,16 +63,6 @@ const sideBar: SideBarDef = {
   ],
 };
 
-const emptyState: TableEmptyState = {
-  title: "No submissions found",
-  description: "No data is available for this dataset.",
-  filters: {
-    title: "No submissions found after filter",
-    description: "Try adjusting your search or filter options if you have any.",
-    reset: true,
-  },
-};
-
 const customViewsType = "cars";
 
 function getRowErrorState({ data }: RowClassParams<Aggregate>) {
@@ -89,7 +70,7 @@ function getRowErrorState({ data }: RowClassParams<Aggregate>) {
   if (data?.status === "305") return "invalid";
 }
 
-export default function SubmissionTable() {
+export default function SubmissionTable({ bookmarks }: Props) {
   const { view } = useParams();
   const router = useRouter();
   const {
@@ -103,7 +84,11 @@ export default function SubmissionTable() {
     onCreateCustomView,
     onSaveCustomView,
     onDeleteCustomView,
+    updateBookmarks,
   } = useAppContext();
+
+  const dataSource = useDataSource(bookmarks);
+  const emptyState = useEmptyState(bookmarks);
 
   const carCustomViews = customViews.filter(
     (customView) => customView.type === customViewsType
@@ -111,6 +96,21 @@ export default function SubmissionTable() {
   const activeCustomView = carCustomViews.find(
     (customView) => customView.id === view
   );
+
+  const getSelectionOptions = useCallback((selection: object[]) => {
+    return [
+      {
+        icon: "Download",
+        title: `Download ${selection.length} submissions`,
+        callback: () => console.log(`Download ${selection.length} submissions`),
+      },
+      {
+        icon: "Bookmark",
+        title: `Bookmark ${selection.length} submissions`,
+        callback: () => updateBookmarks(selection),
+      },
+    ];
+  }, []);
 
   return (
     <>
@@ -147,7 +147,7 @@ export default function SubmissionTable() {
         enableAdvancedFilter
         customViewsQuickActions={customViewQuickActions}
         onToggleCustomViewsQuickActions={toggleCustomViewQuickActions}
-        customViewsLayout="simple"
+        customViewsLayout={bookmarks ? "none" : "simple"}
         customViewsType="cars"
         columnDefs={columnDefs}
         emptyState={emptyState}

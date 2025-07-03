@@ -18,6 +18,10 @@ function CustomViewActions({ onShowCustomViewsList }: Props) {
   const { editing, onStartEditing, onSubmit, onKeyDown } =
     useInlineEditable(createCustomView);
 
+  if (tableProps.customViewsLayout === "none") {
+    return null;
+  }
+
   return (
     <>
       <h3 className={styles.separator}>Custom view actions</h3>

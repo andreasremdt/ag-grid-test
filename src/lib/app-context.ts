@@ -6,6 +6,8 @@ export type AppContextState = {
   onCreateCustomView: (newCustomView: CustomView) => void;
   onSaveCustomView: (savedCustomView: CustomView) => void;
   onDeleteCustomView: (deletedCustomView: CustomView) => void;
+  bookmarks: string[];
+  updateBookmarks: (b: object[]) => void;
   liveUpdates: boolean;
   columnHeadersInCode: boolean;
   customViewQuickActions: boolean;
@@ -19,6 +21,8 @@ const AppContext = createContext<AppContextState>({
   liveUpdates: true,
   columnHeadersInCode: false,
   customViewQuickActions: true,
+  bookmarks: [],
+  updateBookmarks: () => {},
   onCreateCustomView: () => {},
   onSaveCustomView: () => {},
   onDeleteCustomView: () => {},

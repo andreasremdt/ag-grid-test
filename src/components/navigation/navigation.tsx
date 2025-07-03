@@ -19,6 +19,12 @@ export default function Navigation() {
         Home
       </Link>
 
+      <hr />
+
+      <Link href="/bookmarked" className={styles.link}>
+        Bookmarks
+      </Link>
+
       <h2 className={styles.heading}>Cars</h2>
 
       <ul className={styles.list}>
