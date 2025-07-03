@@ -1,5 +1,10 @@
 # Test cases
 
+## Table key
+
+- The prop `tableKey` needs to be set on every table and accepts a string.
+- The key is used to identify custom views.
+
 ## Row relection
 
 - The `onRowSelected` prop should be forwarded to the table called accordingly.
@@ -34,9 +39,9 @@
 
 ## Custom views
 
-- The prop `customViewsLayout` can be set on the table and accepts "dropdown", "simple", or "none".
+- The prop `customViewsLayout` can be set on the table and accepts "menu", "toolbar", or "none".
 
-### "simple" custom view layout
+### "toolbar" custom view layout
 
 - As long as the table state remains unchanged, no controls are visible.
 - When the table state changes (sort order, column order, filter, etc.) and no custom view is currently selected, the "Create custom view" and "Reset view" buttons appear on the top left.
@@ -55,7 +60,7 @@
 - At no times is there a button for the view deletion available in this layout.
 - If the "Custom view quick actions" are disabled, the "Create custom view", "Save changes", and "Reset view" buttons will never be displayed.
 
-### "dropdown" custom view layout
+### "menu" custom view layout
 
 - The custom views dropdown is always displayed, showing the currently active custom view.
 - If no custom view is selected, the default "Default view" is selected.
@@ -81,6 +86,10 @@
   - When the table state changes and a custom view is currently selected, the "Save" button becomes enabled.
   - Clicking "Save" calls the `onSaveCustomView` prop and disables the button again.
 
+### "none" custom view layout
+
+- No custom views control is rendered, neither in the toolbar nor in the table menu.
+
 ## Table menu
 
 - The table menu is rendered on the top right corner at all times.
@@ -92,7 +101,7 @@
   - If there're no custom views available, only the "Default view" is shown.
   - On top of the custom views list, a "Back" button is visible.
   - Clicking the "Back" button shows the original table menu contents.
-- If the `customViewsLayout` is set to "simple", the "Change custom view" button is hidden.
+- If the `customViewsLayout` is set to "toolbar", the "Change custom view" button is hidden.
 - The "Add new custom view" button is disabled unless the table state is changed.
 - Clicking on "Add new custom view" displays an inline textbox, allowing for the name to be entered.
   - While the textbox is visible, the "Add new custom view" button remains hidden.

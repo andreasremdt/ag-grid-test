@@ -63,7 +63,7 @@ const sideBar: SideBarDef = {
   ],
 };
 
-const customViewsType = "cars";
+const tableKey = "cars";
 
 function getRowErrorState({ data }: RowClassParams<Aggregate>) {
   if (data?.status === "355") return "failed";
@@ -91,7 +91,7 @@ export default function SubmissionTable({ bookmarks }: Props) {
   const emptyState = useEmptyState(bookmarks);
 
   const carCustomViews = customViews.filter(
-    (customView) => customView.type === customViewsType
+    (customView) => customView.type === tableKey
   );
   const activeCustomView = carCustomViews.find(
     (customView) => customView.id === view
@@ -147,8 +147,8 @@ export default function SubmissionTable({ bookmarks }: Props) {
         enableAdvancedFilter
         customViewsQuickActions={customViewQuickActions}
         onToggleCustomViewsQuickActions={toggleCustomViewQuickActions}
-        customViewsLayout={bookmarks ? "none" : "simple"}
-        customViewsType="cars"
+        customViewsLayout={bookmarks ? "none" : "toolbar"}
+        tableKey={tableKey}
         columnDefs={columnDefs}
         emptyState={emptyState}
         getRowErrorState={getRowErrorState}

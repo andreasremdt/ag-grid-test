@@ -25,7 +25,7 @@ function TableCustomViewControls() {
 
   return (
     <div>
-      {tableProps.customViewsLayout === "simple" ? (
+      {tableProps.customViewsLayout === "toolbar" ? (
         <>
           {customViews.modified ? (
             <>
@@ -56,7 +56,7 @@ function TableCustomViewControls() {
         </>
       ) : null}
 
-      {tableProps.customViewsLayout === "dropdown" ? (
+      {tableProps.customViewsLayout === "menu" ? (
         <>
           <button
             type="button"

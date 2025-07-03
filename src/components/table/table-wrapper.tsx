@@ -6,7 +6,7 @@ import Table from "./table";
 import type { AgGridReactProps } from "ag-grid-react";
 
 function TableWrapper({
-  customViewsType,
+  tableKey,
   customViews,
   customViewsLayout,
   activeCustomView,
@@ -47,7 +47,7 @@ function TableWrapper({
         state: {
           ...state,
           tableProps: {
-            customViewsType,
+            tableKey,
             customViews,
             customViewsLayout,
             activeCustomView,

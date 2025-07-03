@@ -68,7 +68,7 @@ function useTableCustomViews() {
       id: Date.now().toString(),
       title,
       state: state.customViews.modifiedState,
-      type: state.tableProps.customViewsType!,
+      type: state.tableProps.tableKey,
     };
 
     state.tableProps.onCreateCustomView?.(newCustomView);

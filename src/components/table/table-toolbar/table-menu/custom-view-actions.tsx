@@ -26,7 +26,7 @@ function CustomViewActions({ onShowCustomViewsList }: Props) {
     <>
       <h3 className={styles.separator}>Custom view actions</h3>
 
-      {tableProps.customViewsLayout === "dropdown" ? (
+      {tableProps.customViewsLayout === "menu" ? (
         <button
           className={styles.button}
           type="button"

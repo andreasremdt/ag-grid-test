@@ -39,9 +39,9 @@ export type TableContextState = {
 };
 
 export type TableProps = {
-  customViewsType?: string;
+  tableKey: string;
   customViews?: CustomView[];
-  customViewsLayout?: "none" | "simple" | "dropdown";
+  customViewsLayout?: "none" | "toolbar" | "menu";
   activeCustomView?: CustomView;
   enableAdvancedFilter?: boolean;
   quickFilter?: string;

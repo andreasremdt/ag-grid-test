@@ -57,7 +57,7 @@ function TableSettings() {
         </button>
       ) : null}
 
-      {tableProps.customViewsLayout === "simple" &&
+      {tableProps.customViewsLayout === "toolbar" &&
       tableProps.onToggleCustomViewsQuickActions ? (
         <button
           className={styles.button}

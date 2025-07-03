@@ -27,8 +27,8 @@ function getRowErrorState({ data }: RowClassParams<Computer>) {
   if (data?.make === "HP") return "invalid";
 }
 
-const customViewsType = "computers";
-const localStorageKey = `test.custom-views.${customViewsType}.last-active`;
+const tableKey = "computers";
+const localStorageKey = `test.custom-views.${tableKey}.last-active`;
 
 export default function ComputerTable() {
   const {
@@ -45,7 +45,7 @@ export default function ComputerTable() {
   } = useAppContext();
 
   const computerCustomViews = customViews.filter(
-    (customView) => customView.type === customViewsType
+    (customView) => customView.type === tableKey
   );
   const activeCustomView = computerCustomViews.find(
     (customView) => customView.id === localStorage.getItem(localStorageKey)
@@ -66,10 +66,10 @@ export default function ComputerTable() {
       onSaveCustomView={onSaveCustomView}
       onSelectCustomView={onSelectCustomView}
       activeCustomView={activeCustomView}
-      customViewsType={customViewsType}
+      tableKey={tableKey}
       customViews={computerCustomViews}
       getRowErrorState={getRowErrorState}
-      customViewsLayout="dropdown"
+      customViewsLayout="menu"
       liveUpdatesInterval={liveUpdates ? 3000 : undefined}
       onToggleLiveUpdates={toggleLiveUpdates}
       customViewsQuickActions={customViewQuickActions}
